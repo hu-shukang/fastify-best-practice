@@ -12,9 +12,9 @@ const paramsSchema: JSONSchemaType<BookIdInput> = {
 };
 
 export const schema: FastifySchema = {
-  description: '書籍取得',
+  summary: '書籍取得',
+  description: '書籍を取得します。',
   tags: ['book'],
-  summary: '書籍を取得します。',
   params: paramsSchema,
   response: {
     200: {

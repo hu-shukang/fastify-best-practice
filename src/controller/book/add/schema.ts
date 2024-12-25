@@ -13,9 +13,9 @@ const bodySchema: JSONSchemaType<BookInput> = {
 };
 
 export const schema: FastifySchema = {
-  description: '書籍追加',
+  summary: '書籍追加',
+  description: '書籍を追加します。',
   tags: ['book'],
-  summary: '書籍を追加します。',
   body: bodySchema,
   response: {
     200: {

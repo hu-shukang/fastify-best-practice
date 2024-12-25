@@ -12,9 +12,9 @@ const querystringSchema: JSONSchemaType<BookQueryInput> = {
 };
 
 export const schema: FastifySchema = {
-  description: '書籍検索',
+  summary: '書籍検索',
+  description: '書籍を検索します。',
   tags: ['book'],
-  summary: '書籍を検索します。',
   querystring: querystringSchema,
   response: {
     200: {
