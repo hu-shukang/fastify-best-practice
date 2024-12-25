@@ -15,7 +15,7 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
         },
         servers: [
           {
-            url: 'http://localhost:3000',
+            url: 'http://127.0.0.1:8080',
             description: 'Development server',
           },
         ],
@@ -39,7 +39,11 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
         },
       },
       staticCSP: true,
-      transformStaticCSP: (header) => header,
+      transformStaticCSP: (header) => {
+        return header
+          .replace("style-src 'self'", "style-src 'self' 'unsafe-inline'")
+          .replace("default-src 'self'", "default-src 'self' http://127.0.0.1:8080");
+      },
       transformSpecification: (swaggerObject, _request, _reply) => {
         return swaggerObject;
       },
