@@ -9,7 +9,7 @@ const ajv = AjvErrors(
     allErrors: true,
     $data: true,
     removeAdditional: true,
-    coerceTypes: 'array',
+    coerceTypes: false,
   }),
 );
 

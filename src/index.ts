@@ -28,3 +28,5 @@ server.listen({ host: '0.0.0.0', port: 8080 }, (err, address) => {
   console.log(`Server listening at ${address}`);
   console.log(server.printRoutes());
 });
+
+export default server;

@@ -18,8 +18,8 @@ const errorHandlerPlugin: FastifyPluginAsync = fp(async (fastify) => {
     request.log.error(`Error: ${JSON.stringify(details)}`);
 
     reply.status(error.statusCode || 500).send({
+      status: 'error',
       message: error.message,
-      stack: error.stack,
     });
   });
 });
