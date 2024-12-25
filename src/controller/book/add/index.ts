@@ -9,13 +9,16 @@ const routes = async (fastify: FastifyInstance) => {
     '/book',
     {
       schema: schema,
+      config: {
+        logPrefix: '書籍追加',
+      },
     },
     async (req, _reply) => {
       const id = getId();
       const createdAt = getUTC();
       const { title, content } = req.body;
 
-      req.log.info({ id, title, content, createdAt }, 'Add book');
+      req.log.info(JSON.stringify({ id, title, content, createdAt }));
 
       // TODO: Add book to database
       // await bookService.add({ id, title, content, createdAt });

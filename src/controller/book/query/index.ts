@@ -7,6 +7,9 @@ const routes = async (fastify: FastifyInstance) => {
     '/book',
     {
       schema: schema,
+      config: {
+        logPrefix: '書籍検索',
+      },
     },
     async (req, _reply) => {
       const { title, content } = req.query;

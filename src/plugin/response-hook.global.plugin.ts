@@ -21,7 +21,7 @@ const responseHookPlugin: FastifyPluginAsync = fp(async (fastify) => {
     reply.header('content-type', 'application/json');
 
     // レスポンス情報のログ出力
-    reply.log.info(
+    request.log.info(
       `Response info: ${JSON.stringify({
         headers: reply.getHeaders(),
         url: request.url,

@@ -3,11 +3,32 @@ import autoLoad from '@fastify/autoload';
 import path from 'path';
 import dotenv from 'dotenv';
 
-const server = fastify();
+declare module 'fastify' {
+  interface FastifyContextConfig {
+    logPrefix?: string;
+  }
+}
 
 if (process.env.NODE_ENV === 'local') {
   dotenv.config();
 }
+
+const server = fastify({
+  genReqId: () => `req-${Math.random().toString(36).substring(2, 12)}`,
+  disableRequestLogging: true,
+  logger: {
+    level: process.env.LOG_LEVEL || 'info',
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: process.env.NODE_ENV === 'local',
+        translateTime: 'SYS:standard',
+        ignore: 'pid,reqId,hostname,res,responseTime,logPrefix',
+        messageFormat: '[{reqId}] [{logPrefix}] - {msg}',
+      },
+    },
+  },
+});
 
 server.register(autoLoad, {
   dir: path.join(__dirname, 'plugin'),
