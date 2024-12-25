@@ -1,8 +1,7 @@
 import { BookInput } from '@/model/book.model';
 import { FastifyInstance } from 'fastify';
 import { schema } from './schema';
-import { getId } from '@/util/string.util';
-import { getUTC } from '@/util/date.util';
+import { BookService } from '@/service/book.service';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.post<{ Body: BookInput }>(
@@ -14,14 +13,10 @@ const routes = async (fastify: FastifyInstance) => {
       },
     },
     async (req, _reply) => {
-      const id = getId();
-      const createdAt = getUTC();
-      const { title, content } = req.body;
+      const form = req.body;
 
-      req.log.info(JSON.stringify({ id, title, content, createdAt }));
-
-      // TODO: Add book to database
-      // await bookService.add({ id, title, content, createdAt });
+      const bookService = new BookService(req.log);
+      const id = await bookService.add(form);
 
       return { status: 'success', data: { id } };
     },
