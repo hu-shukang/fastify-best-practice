@@ -14,7 +14,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { title, content } = req.query;
 
-      req.log.info({ title, content }, 'Query book');
+      req.log.info(`Query book with title: ${title}, content: ${content}`);
 
       // TODO: Query book from database
       // const bookList = await bookService.query({ title, content });

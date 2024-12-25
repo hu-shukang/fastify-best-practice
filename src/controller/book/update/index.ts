@@ -15,7 +15,7 @@ const routes = async (fastify: FastifyInstance) => {
       const { id } = req.params;
       const { title, content } = req.body;
 
-      req.log.info({ id, title, content }, 'Update book');
+      req.log.info(JSON.stringify({ id, title, content }));
 
       // TODO: Update book in database
       // const book = await bookService.update(id, { title, content });

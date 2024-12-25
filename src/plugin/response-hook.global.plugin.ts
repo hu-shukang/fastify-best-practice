@@ -23,10 +23,10 @@ const responseHookPlugin: FastifyPluginAsync = fp(async (fastify) => {
     // レスポンス情報のログ出力
     request.log.info(
       `Response info: ${JSON.stringify({
-        headers: reply.getHeaders(),
+        statusCode: reply.statusCode,
         url: request.url,
         method: request.method,
-        statusCode: reply.statusCode,
+        headers: reply.getHeaders(),
         payload: payload,
       })}`,
     );

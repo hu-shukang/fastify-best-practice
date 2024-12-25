@@ -14,7 +14,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { id } = req.params;
 
-      req.log.info({ id }, 'Delete book');
+      req.log.info(JSON.stringify({ id }));
 
       // TODO: Delete book from database
       // await bookService.delete(id);
