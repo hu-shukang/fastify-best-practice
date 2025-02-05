@@ -1,4 +1,5 @@
-import { asyncLocalStorage } from '@/util/async-storage.util';
+import { logger } from '@/util/logger.util';
+import { requestContext } from '@fastify/request-context';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
@@ -20,10 +21,10 @@ const responseHookPlugin: FastifyPluginAsync = fp(async (fastify) => {
     reply.header('X-Frame-Options', 'DENY');
     reply.header('X-XSS-Protection', '1; mode=block');
     reply.header('content-type', 'application/json');
-    reply.header('x-tracing-id', asyncLocalStorage.getStore()?.reqId || '');
+    reply.header('x-tracing-id', requestContext.get('reqId') || '');
 
     // レスポンス情報のログ出力
-    request.log.info(
+    logger.info(
       `Response info: ${JSON.stringify({
         statusCode: reply.statusCode,
         url: request.url,

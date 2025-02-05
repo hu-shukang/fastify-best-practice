@@ -2,6 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { bookDesc, BookQueryInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
 import { FastifySchema } from 'fastify';
+import { logger } from '@/util/logger.util';
 
 const querystringSchema: JSONSchemaType<BookQueryInput> = {
   type: 'object',
@@ -52,7 +53,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { title, content } = req.query;
 
-      req.log.info(`Query book with title: ${title}, content: ${content}`);
+      logger.info(`Query book with title: ${title}, content: ${content}`);
 
       // TODO: Query book from database
       // const bookList = await bookService.query({ title, content });

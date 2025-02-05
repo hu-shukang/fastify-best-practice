@@ -1,6 +1,6 @@
-import { asyncLocalStorage } from './async-storage.util';
+import { requestContext } from '@fastify/request-context';
 
-const getLogger = () => asyncLocalStorage.getStore()?.logger ?? console;
+const getLogger = () => requestContext.get('logger') ?? console;
 
 export const logger = {
   info: (msg: string) => getLogger().info(msg),
