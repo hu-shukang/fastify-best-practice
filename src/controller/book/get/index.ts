@@ -1,6 +1,7 @@
 import { BookIdInput } from '@/model/book.model';
 import { FastifyInstance } from 'fastify';
 import { schema } from './schema';
+import { logger } from '@/util/logger.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.get<{ Params: BookIdInput }>(
@@ -14,7 +15,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { id } = req.params;
 
-      req.log.info(JSON.stringify({ id }));
+      logger.info(JSON.stringify({ id }));
 
       // TODO: Delete book from database
       // const bookDetail = await bookService.get(id);

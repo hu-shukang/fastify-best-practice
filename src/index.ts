@@ -14,7 +14,6 @@ if (process.env.NODE_ENV === 'local') {
 }
 
 const server = fastify({
-  genReqId: () => `req-${Math.random().toString(36).substring(2, 12)}`,
   disableRequestLogging: true,
   logger: {
     level: process.env.LOG_LEVEL || 'info',

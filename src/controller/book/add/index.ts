@@ -2,6 +2,7 @@ import { BookInput } from '@/model/book.model';
 import { FastifyInstance } from 'fastify';
 import { schema } from './schema';
 import { BookService } from '@/service/book.service';
+import { logger } from '@/util/logger.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.post<{ Body: BookInput }>(
@@ -17,7 +18,7 @@ const routes = async (fastify: FastifyInstance) => {
 
       const bookService = new BookService(req.log);
       const id = await bookService.add(form);
-
+      logger.info(`書籍を追加しました。id: ${id}`);
       return { status: 'success', data: { id } };
     },
   );
