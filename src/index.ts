@@ -36,8 +36,6 @@ server.register(autoLoad, {
 
 server.register(autoLoad, {
   dir: path.join(__dirname, 'controller'),
-  matchFilter: (path) => path.endsWith('index.ts'),
-  dirNameRoutePrefix: false,
 });
 
 server.listen({ host: '0.0.0.0', port: 8080 }, (err, address) => {

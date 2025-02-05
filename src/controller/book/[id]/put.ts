@@ -1,3 +1,4 @@
+import { FastifyInstance } from 'fastify';
 import { bookDesc, BookIdInput, BookInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
 import { FastifySchema } from 'fastify';
@@ -37,3 +38,28 @@ export const schema: FastifySchema = {
     },
   },
 };
+
+const routes = async (fastify: FastifyInstance) => {
+  fastify.put<{ Params: BookIdInput; Body: BookInput }>(
+    '/',
+    {
+      schema: schema,
+      config: {
+        logPrefix: '書籍更新',
+      },
+    },
+    async (req, _reply) => {
+      const { id } = req.params;
+      const { title, content } = req.body;
+
+      req.log.info(JSON.stringify({ id, title, content }));
+
+      // TODO: Update book in database
+      // const book = await bookService.update(id, { title, content });
+
+      return { status: 'success' };
+    },
+  );
+};
+
+export default routes;

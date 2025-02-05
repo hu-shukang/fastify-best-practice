@@ -1,3 +1,6 @@
+import { FastifyInstance } from 'fastify';
+import { BookService } from '@/service/book.service';
+import { logger } from '@/util/logger.util';
 import { bookDesc, BookInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
 import { FastifySchema } from 'fastify';
@@ -33,3 +36,25 @@ export const schema: FastifySchema = {
     },
   },
 };
+
+const routes = async (fastify: FastifyInstance) => {
+  fastify.post<{ Body: BookInput }>(
+    '/',
+    {
+      schema: schema,
+      config: {
+        logPrefix: '書籍追加',
+      },
+    },
+    async (req, _reply) => {
+      const form = req.body;
+
+      const bookService = new BookService(req.log);
+      const id = await bookService.add(form);
+      logger.info(`書籍を追加しました。id: ${id}`);
+      return { status: 'success', data: { id } };
+    },
+  );
+};
+
+export default routes;

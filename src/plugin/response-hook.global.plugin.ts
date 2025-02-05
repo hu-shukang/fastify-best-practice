@@ -2,7 +2,7 @@ import { asyncLocalStorage } from '@/util/async-storage.util';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
-const ignorePaths = ['/documentation', '/health'];
+const ignorePaths = ['/doc', '/health'];
 
 const checkIgnorePaths = (path: string) => {
   return ignorePaths.some((ignorePath) => path.startsWith(ignorePath));
