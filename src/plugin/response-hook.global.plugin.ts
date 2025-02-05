@@ -1,4 +1,4 @@
-import { asyncLocalStorage } from '@/util/async-storage';
+import { asyncLocalStorage } from '@/util/async-storage.util';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
