@@ -1,4 +1,4 @@
-import fastify from 'fastify';
+import fastify, { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify';
 import autoLoad from '@fastify/autoload';
 import path from 'path';
 import dotenv from 'dotenv';
@@ -6,6 +6,10 @@ import dotenv from 'dotenv';
 declare module 'fastify' {
   interface FastifyContextConfig {
     logPrefix?: string;
+  }
+  interface FastifyInstance {
+    verifyAdmin: (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => void;
+    verifySemiAdmin: (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => void;
   }
 }
 
