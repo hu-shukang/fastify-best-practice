@@ -4,21 +4,28 @@ import AjvErrors from 'ajv-errors';
 import AjvFormats from 'ajv-formats';
 import fp from 'fastify-plugin';
 
-const ajv = AjvErrors(
-  new Ajv({
-    allErrors: true,
-    $data: true,
-    removeAdditional: true,
-    coerceTypes: false,
-  }),
-);
+const getAjvInstance = (coerceTypes: boolean) => {
+  const ajv = AjvErrors(
+    new Ajv({
+      allErrors: true,
+      $data: true,
+      removeAdditional: true,
+      coerceTypes: coerceTypes,
+    }),
+  );
 
-AjvFormats(ajv);
+  AjvFormats(ajv);
+
+  return ajv;
+};
+
+const ajv = getAjvInstance(false);
+const ajvWithCoerce = getAjvInstance(true);
 
 const schemaCompilers: Record<string, Ajv> = {
   body: ajv,
   params: ajv,
-  querystring: ajv,
+  querystring: ajvWithCoerce,
 };
 
 const ajvPlugin: FastifyPluginAsync = fp(async (fastify) => {
