@@ -1,6 +1,6 @@
+import cors from '@fastify/cors';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
-import cors from '@fastify/cors';
 
 const corsPlugin: FastifyPluginAsync = fp(async (fastify) => {
   // if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'it') {

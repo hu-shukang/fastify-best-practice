@@ -11,7 +11,7 @@ export default [
   ...tseslint.configs.recommended,
   eslintPluginPrettierRecommended,
   {
-    ignores: ['eslint.config.mjs', 'node_modules', 'dist', '.prettierrc', 'jest.config.ts'],
+    ignores: ['eslint.config.mjs', 'node_modules', 'dist', 'jest.config.ts'],
   },
   {
     rules: {

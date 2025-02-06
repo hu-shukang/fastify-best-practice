@@ -1,7 +1,7 @@
-import { FastifyPluginAsync } from 'fastify';
 import Ajv from 'ajv';
 import AjvErrors from 'ajv-errors';
 import AjvFormats from 'ajv-formats';
+import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
 const getAjvInstance = (coerceTypes: boolean) => {

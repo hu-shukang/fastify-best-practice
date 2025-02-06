@@ -1,7 +1,7 @@
-import { FastifyPluginAsync } from 'fastify';
-import fp from 'fastify-plugin';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import { FastifyPluginAsync } from 'fastify';
+import fp from 'fastify-plugin';
 
 const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
   if (process.env.NODE_ENV === 'local' || process.env.NODE_ENV === 'it') {

@@ -1,6 +1,6 @@
+import auth from '@fastify/auth';
 import { FastifyPluginAsync, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify';
 import fp from 'fastify-plugin';
-import auth from '@fastify/auth';
 
 const verifyAdmin = (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => {
   // check if the user is an admin

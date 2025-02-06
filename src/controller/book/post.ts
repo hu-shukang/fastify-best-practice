@@ -1,8 +1,8 @@
-import { FastifyInstance } from 'fastify';
+import { bookDesc, BookInput } from '@/model/book.model';
 import { BookService } from '@/service/book.service';
 import { logger } from '@/util/logger.util';
-import { bookDesc, BookInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
+import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
 
 const bodySchema: JSONSchemaType<BookInput> = {

@@ -1,8 +1,8 @@
-import { FastifyInstance } from 'fastify';
 import { bookDesc, BookQueryInput } from '@/model/book.model';
-import { JSONSchemaType } from 'ajv';
-import { FastifySchema } from 'fastify';
 import { logger } from '@/util/logger.util';
+import { JSONSchemaType } from 'ajv';
+import { FastifyInstance } from 'fastify';
+import { FastifySchema } from 'fastify';
 
 const querystringSchema: JSONSchemaType<BookQueryInput> = {
   type: 'object',
