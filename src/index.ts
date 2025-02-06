@@ -1,7 +1,25 @@
-import fastify from 'fastify';
+import fastify, { FastifyBaseLogger, FastifyReply, HookHandlerDoneFunction } from 'fastify';
 import autoLoad from '@fastify/autoload';
 import path from 'path';
 import dotenv from 'dotenv';
+import '@fastify/request-context';
+
+declare module '@fastify/request-context' {
+  interface RequestContextData {
+    logger: FastifyBaseLogger;
+    reqId: string;
+  }
+}
+
+declare module 'fastify' {
+  interface FastifyContextConfig {
+    logPrefix?: string;
+  }
+  interface FastifyInstance {
+    verifyAdmin: (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => void;
+    verifySemiAdmin: (request: FastifyRequest, reply: FastifyReply, done: HookHandlerDoneFunction) => void;
+  }
+}
 
 if (process.env.NODE_ENV === 'local') {
   dotenv.config();
