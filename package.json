@@ -18,6 +18,7 @@
   "dependencies": {
     "@fastify/auth": "^5.0.2",
     "@fastify/autoload": "^6.0.3",
+    "@fastify/cors": "^10.0.2",
     "@fastify/request-context": "^6.0.2",
     "@fastify/swagger": "^9.4.0",
     "@fastify/swagger-ui": "^5.2.0",
