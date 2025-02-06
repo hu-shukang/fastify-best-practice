@@ -48,9 +48,7 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const form = req.body;
-
-      const bookService = new BookService(req.log);
-      const id = await bookService.add(form);
+      const id = await BookService.add(form);
       logger.info(`書籍を追加しました。id: ${id}`);
       return { status: 'success', data: { id } };
     },
