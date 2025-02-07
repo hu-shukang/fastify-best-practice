@@ -1,5 +1,7 @@
 import { bookDesc, BookInput } from '@/model/book.model';
-import { logger, prisma } from '@/util';
+import { BookService } from '@/service/book.service';
+import { logger } from '@/util/logger.util';
+import { prisma } from '@/util/prisma.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
