@@ -1,6 +1,7 @@
 import { bookDesc, BookInput } from '@/model/book.model';
 import { BookService } from '@/service/book.service';
 import { logger } from '@/util/logger.util';
+import { prisma } from '@/util/prisma.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
@@ -48,9 +49,9 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const form = req.body;
-      const id = await BookService.add(form);
-      logger.info(`書籍を追加しました。id: ${id}`);
-      return { status: 'success', data: { id } };
+      const book = await prisma.book.create({ data: form });
+      logger.info(`書籍を追加しました。id: ${book.id}`);
+      return { status: 'success', data: { id: book.id } };
     },
   );
 };

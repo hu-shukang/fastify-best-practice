@@ -5,5 +5,8 @@
   "prettier.printWidth": 120,
   "prettier.singleQuote": true,
   "prettier.endOfLine": "lf",
-  "jest.enable": false
+  "jest.enable": false,
+  "[prisma]": {
+    "editor.defaultFormatter": "Prisma.prisma"
+  }
 }

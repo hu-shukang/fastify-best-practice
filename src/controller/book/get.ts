@@ -1,5 +1,6 @@
 import { bookDesc, BookQueryInput } from '@/model/book.model';
 import { logger } from '@/util/logger.util';
+import { prisma } from '@/util/prisma.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
@@ -53,21 +54,18 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { title, content } = req.query;
 
-      logger.info(`Query book with title: ${title}, content: ${content}`);
-
-      // TODO: Query book from database
-      // const bookList = await bookService.query({ title, content });
+      const books = await prisma.book.findMany({
+        select: { id: true, title: true, createdAt: true, updatedAt: true },
+        where: {
+          title: { contains: title },
+          content: { contains: content },
+        },
+        orderBy: { createdAt: 'desc' },
+      });
 
       return {
         status: 'success',
-        data: [
-          {
-            id: 'xx',
-            title: 'xx',
-            createdAt: 'xx',
-            updatedAt: 'xx',
-          },
-        ],
+        data: books,
       };
     },
   );
