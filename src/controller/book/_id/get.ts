@@ -1,5 +1,5 @@
 import { bookDesc, BookIdInput } from '@/model/book.model';
-import { logger } from '@/util/logger.util';
+import { logger } from '@/util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
