@@ -1,4 +1,4 @@
-import { bookDesc, BookIdInput, BookInput } from '@/model/book.model';
+import { bookDesc, BookIdInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
@@ -12,22 +12,11 @@ const paramsSchema: JSONSchemaType<BookIdInput> = {
   additionalProperties: false,
 };
 
-const bodySchema: JSONSchemaType<BookInput> = {
-  type: 'object',
-  properties: {
-    title: { type: 'string', maxLength: 50, description: bookDesc.title },
-    content: { type: 'string', maxLength: 10000, description: bookDesc.content },
-  },
-  required: ['title', 'content'],
-  additionalProperties: false,
-};
-
 export const schema: FastifySchema = {
-  summary: '書籍更新',
-  description: '書籍を更新します。',
+  summary: '書籍削除',
+  description: '書籍を削除します。',
   tags: ['book'],
   params: paramsSchema,
-  body: bodySchema,
   response: {
     200: {
       description: '成功',
@@ -40,22 +29,21 @@ export const schema: FastifySchema = {
 };
 
 const routes = async (fastify: FastifyInstance) => {
-  fastify.put<{ Params: BookIdInput; Body: BookInput }>(
-    '/',
+  fastify.delete<{ Params: BookIdInput }>(
+    '',
     {
       schema: schema,
       config: {
-        logPrefix: '書籍更新',
+        logPrefix: '書籍削除',
       },
     },
     async (req, _reply) => {
       const { id } = req.params;
-      const { title, content } = req.body;
 
-      req.log.info(JSON.stringify({ id, title, content }));
+      req.log.info(JSON.stringify({ id }));
 
-      // TODO: Update book in database
-      // const book = await bookService.update(id, { title, content });
+      // TODO: Delete book from database
+      // await bookService.delete(id);
 
       return { status: 'success' };
     },

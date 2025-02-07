@@ -1,10 +1,16 @@
-import { bookDesc, BookInput } from '@/model/book.model';
-import { BookService } from '@/service/book.service';
-import { logger } from '@/util/logger.util';
-import { prisma } from '@/util/prisma.util';
+import { bookDesc, BookIdInput, BookInput } from '@/model/book.model';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
+
+const paramsSchema: JSONSchemaType<BookIdInput> = {
+  type: 'object',
+  properties: {
+    id: { type: 'string', format: 'uuid', description: bookDesc.id },
+  },
+  required: ['id'],
+  additionalProperties: false,
+};
 
 const bodySchema: JSONSchemaType<BookInput> = {
   type: 'object',
@@ -17,9 +23,10 @@ const bodySchema: JSONSchemaType<BookInput> = {
 };
 
 export const schema: FastifySchema = {
-  summary: '書籍追加',
-  description: '書籍を追加します。',
+  summary: '書籍更新',
+  description: '書籍を更新します。',
   tags: ['book'],
+  params: paramsSchema,
   body: bodySchema,
   response: {
     200: {
@@ -27,31 +34,30 @@ export const schema: FastifySchema = {
       type: 'object',
       properties: {
         status: { type: 'string', const: 'success' },
-        data: {
-          type: 'object',
-          properties: {
-            id: { type: 'string', description: bookDesc.id },
-          },
-        },
       },
     },
   },
 };
 
 const routes = async (fastify: FastifyInstance) => {
-  fastify.post<{ Body: BookInput }>(
+  fastify.put<{ Params: BookIdInput; Body: BookInput }>(
     '',
     {
       schema: schema,
       config: {
-        logPrefix: '書籍追加',
+        logPrefix: '書籍更新',
       },
     },
     async (req, _reply) => {
-      const form = req.body;
-      const book = await prisma.book.create({ data: form });
-      logger.info(`書籍を追加しました。id: ${book.id}`);
-      return { status: 'success', data: { id: book.id } };
+      const { id } = req.params;
+      const { title, content } = req.body;
+
+      req.log.info(JSON.stringify({ id, title, content }));
+
+      // TODO: Update book in database
+      // const book = await bookService.update(id, { title, content });
+
+      return { status: 'success' };
     },
   );
 };

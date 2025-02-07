@@ -44,7 +44,7 @@ export const schema: FastifySchema = {
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.get<{ Querystring: BookQueryInput }>(
-    '/',
+    '',
     {
       schema: schema,
       config: {

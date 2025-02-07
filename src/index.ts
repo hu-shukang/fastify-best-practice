@@ -48,6 +48,7 @@ server.register(autoLoad, {
 
 server.register(autoLoad, {
   dir: path.join(__dirname, 'controller'),
+  routeParams: true,
 });
 
 server.listen({ host: '0.0.0.0', port: 8080 }, (err, address) => {
