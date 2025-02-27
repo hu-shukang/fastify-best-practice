@@ -1,5 +1,5 @@
 import { userDesc, UserQueryInput } from '@/model/user.model';
-import { logger } from '@/util';
+import { logger } from '@/util/logger.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';

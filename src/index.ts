@@ -1,7 +1,15 @@
 import autoLoad from '@fastify/autoload';
+import '@fastify/request-context';
 import dotenv from 'dotenv';
-import fastify, { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify';
+import fastify, { FastifyBaseLogger, FastifyReply, HookHandlerDoneFunction } from 'fastify';
 import path from 'path';
+
+declare module '@fastify/request-context' {
+  interface RequestContextData {
+    logger: FastifyBaseLogger;
+    reqId: string;
+  }
+}
 
 declare module 'fastify' {
   interface FastifyContextConfig {
