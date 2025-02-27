@@ -1,7 +1,6 @@
 import autoLoad from '@fastify/autoload';
-import { AsyncLocalStorage } from 'async_hooks';
 import dotenv from 'dotenv';
-import fastify, { FastifyBaseLogger, FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify';
+import fastify, { FastifyReply, FastifyRequest, HookHandlerDoneFunction } from 'fastify';
 import path from 'path';
 
 declare module 'fastify' {
@@ -36,7 +35,7 @@ const server = fastify({
 
 server.register(autoLoad, {
   dir: path.join(__dirname, 'plugin'),
-  matchFilter: (path) => path.endsWith('global.plugin.ts'),
+  matchFilter: (path) => path.includes('global.plugin'),
 });
 
 server.register(autoLoad, {
