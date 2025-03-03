@@ -1,7 +1,8 @@
+import { Book } from '@/entity/book.entity';
 import { bookDesc, BookInput } from '@/model/book.model';
 import { BookService } from '@/service/book.service';
+import { dataSource } from '@/util/db.util';
 import { logger } from '@/util/logger.util';
-import { prisma } from '@/util/prisma.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
@@ -49,9 +50,10 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const form = req.body;
-      const book = await prisma.book.create({ data: form });
-      logger.info(`書籍を追加しました。id: ${book.id}`);
-      return { status: 'success', data: { id: book.id } };
+      const book = await dataSource.getRepository(Book).insert({ ...form });
+      const id = book.identifiers[0].id;
+      logger.info(`書籍を追加しました。id: ${id}`);
+      return { status: 'success', data: { id: id } };
     },
   );
 };

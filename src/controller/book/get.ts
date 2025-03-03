@@ -1,9 +1,10 @@
+import { Book } from '@/entity/book.entity';
 import { bookDesc, BookQueryInput } from '@/model/book.model';
-import { logger } from '@/util/logger.util';
-import { prisma } from '@/util/prisma.util';
+import { dataSource } from '@/util/db.util';
 import { JSONSchemaType } from 'ajv';
 import { FastifyInstance } from 'fastify';
 import { FastifySchema } from 'fastify';
+import { Like } from 'typeorm';
 
 const querystringSchema: JSONSchemaType<BookQueryInput> = {
   type: 'object',
@@ -54,13 +55,13 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { title, content } = req.query;
 
-      const books = await prisma.book.findMany({
-        select: { id: true, title: true, createdAt: true, updatedAt: true },
+      const books = await dataSource.getRepository(Book).find({
+        select: ['id', 'title', 'createdAt', 'updateAt'],
         where: {
-          title: { contains: title },
-          content: { contains: content },
+          title: Like(`%${title}%`),
+          content: Like(`%${content}%`),
         },
-        orderBy: { createdAt: 'desc' },
+        order: { createdAt: 'DESC' },
       });
 
       return {
