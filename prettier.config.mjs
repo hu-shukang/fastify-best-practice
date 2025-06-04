@@ -8,4 +8,5 @@ export default {
   trailingComma: 'all',
   endOfLine: 'lf',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrderParserPlugins: ['typescript', 'decorators-legacy'],
 };

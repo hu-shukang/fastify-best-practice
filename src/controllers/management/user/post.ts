@@ -1,4 +1,5 @@
 import { SCHEMA } from '../../../utils/const.util';
+import { UserEntity } from '@/entities/user.entity';
 import { logger } from '@/utils/logger.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
@@ -24,7 +25,6 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const form = req.body;
-      logger.info(form);
 
       return { status: 'success' };
     },

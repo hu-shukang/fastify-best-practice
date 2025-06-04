@@ -2,6 +2,7 @@ import autoLoad from '@fastify/autoload';
 import fastify from 'fastify';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import { join } from 'path';
+import 'reflect-metadata';
 
 const server = fastify({
   disableRequestLogging: true,
