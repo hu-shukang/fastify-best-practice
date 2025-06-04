@@ -1,13 +1,14 @@
 import { SCHEMA } from '../../../utils/const.util';
+import { logger } from '@/utils/logger.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 
 const bodySchema = z.object({
-  name: z.string().describe(SCHEMA.desc.user.name),
-  address: z.string().describe(SCHEMA.desc.user.address),
-  birthday: z.string().datetime().describe(SCHEMA.desc.user.birthday),
-  email: z.string().email().describe(SCHEMA.desc.user.email),
+  username: SCHEMA.z.user.username,
+  address: SCHEMA.z.user.address,
+  birthday: SCHEMA.z.user.birthday,
+  email: SCHEMA.z.user.email,
 });
 
 const routes = async (fastify: FastifyInstance) => {
@@ -23,7 +24,7 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const form = req.body;
-      console.log(form);
+      logger.info(form);
 
       return { status: 'success' };
     },

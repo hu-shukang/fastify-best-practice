@@ -1,12 +1,22 @@
 import { SCHEMA } from '../../utils/const.util';
+import { logger } from '@/utils/logger.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 
-const querySchema = z.object({
-  id: z.string().uuid().describe(SCHEMA.desc.user.id),
-  name: z.string().describe(SCHEMA.desc.user.name),
-});
+const querySchema = z
+  .object({
+    id: SCHEMA.z.user.id.optional(),
+    username: SCHEMA.z.user.username.optional(),
+  })
+  .refine(
+    (data) => {
+      return Object.keys(data).some((key) => data[key as keyof typeof data] !== undefined);
+    },
+    {
+      message: '请求参数中必须至少提供 id 或 username 中的一个。',
+    },
+  );
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -20,8 +30,8 @@ const routes = async (fastify: FastifyInstance) => {
       },
     },
     async (req, _reply) => {
-      const { id, name } = req.query;
-      console.log(id, name);
+      const form = req.query;
+      logger.info(form);
 
       return { status: 'success' };
     },
