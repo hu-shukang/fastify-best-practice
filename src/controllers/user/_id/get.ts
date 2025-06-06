@@ -1,5 +1,5 @@
 import { UserEntity } from '@/entities/user.entity';
-import { userQuerySchema } from '@/models/user.model';
+import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
@@ -9,15 +9,15 @@ const routes = async (fastify: FastifyInstance) => {
     '',
     {
       schema: {
-        summary: 'ユーザ検索',
-        description: 'Query条件でユーザを検索します',
+        summary: 'ユーザ取得',
+        description: 'ユーザIDを指定してユーザを取得します',
         tags: [SCHEMA.tags.user.name],
-        querystring: userQuerySchema,
+        params: userIdSchema,
       },
     },
     async (req, _reply) => {
-      const form = req.query;
-      return await UserEntity.queryList(form);
+      const { id } = req.params;
+      return await UserEntity.findOneBy({ id });
     },
   );
 };

@@ -1,56 +1,52 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UserEntity } from './entities/user.entity';
 import { logger } from './utils/logger.util';
 import 'reflect-metadata';
-import { DataSource, AbstractLogger, LogLevel, LogMessage, QueryRunner } from 'typeorm';
+import { DataSource, QueryRunner, Logger } from 'typeorm';
 
-export class CustomLogger extends AbstractLogger {
-  /**
-   * Write log to specific output.
-   */
-  protected writeLog(level: LogLevel, logMessage: LogMessage | LogMessage[], queryRunner?: QueryRunner) {
-    const messages = this.prepareLogMessages(
-      logMessage,
-      {
-        highlightSql: false,
-      },
-      queryRunner,
-    );
+class CustomLogger implements Logger {
+  logQuery(query: string, parameters?: any[], _queryRunner?: QueryRunner) {
+    logger.info(`[Query]: ${query}`);
+    if (parameters) {
+      logger.info(`[Parameters]: ${parameters}`);
+    }
+  }
 
-    for (const message of messages) {
-      switch (message.type ?? level) {
-        case 'log':
-        case 'schema-build':
-        case 'migration':
-          logger.info(message.message);
-          break;
+  logQueryError(error: string | Error, query: string, parameters?: any[], _queryRunner?: QueryRunner) {
+    logger.error(`[Query]: ${query}`);
+    if (parameters) {
+      logger.error(`[Parameters]: ${parameters}`);
+    }
+    logger.error(`error: ${error}`);
+  }
 
-        case 'info':
-        case 'query':
-          if (message.prefix) {
-            logger.info(message.prefix, message.message);
-          } else {
-            logger.info(message.message);
-          }
-          break;
+  logQuerySlow(time: number, query: string, parameters?: any[], _queryRunner?: QueryRunner) {
+    logger.warn(`[Query]: ${query}`);
+    if (parameters) {
+      logger.warn(`[Parameters]: ${parameters}`);
+    }
+    logger.warn(`[Time]: ${time}`);
+  }
 
-        case 'warn':
-        case 'query-slow':
-          if (message.prefix) {
-            logger.warn(message.prefix, message.message);
-          } else {
-            logger.warn(message.message);
-          }
-          break;
+  logSchemaBuild(message: string, _queryRunner?: QueryRunner) {
+    logger.info(`message: ${message}`);
+  }
 
-        case 'error':
-        case 'query-error':
-          if (message.prefix) {
-            logger.error(message.prefix, message.message);
-          } else {
-            logger.error(message.message);
-          }
-          break;
-      }
+  logMigration(message: string, _queryRunner?: QueryRunner) {
+    logger.info(`message: ${message}`);
+  }
+
+  log(level: 'log' | 'info' | 'warn', message: any, _queryRunner?: QueryRunner) {
+    switch (level) {
+      case 'log':
+        logger.info(`message: ${message}`);
+        break;
+      case 'info':
+        logger.info(`message: ${message}`);
+        break;
+      case 'warn':
+        logger.warn(`message: ${message}`);
+        break;
     }
   }
 }

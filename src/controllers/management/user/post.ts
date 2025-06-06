@@ -1,6 +1,6 @@
 import { SCHEMA } from '../../../utils/const.util';
 import { UserEntity } from '@/entities/user.entity';
-import { logger } from '@/utils/logger.util';
+import { Str } from '@/utils/string.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
@@ -23,10 +23,13 @@ const routes = async (fastify: FastifyInstance) => {
         body: bodySchema,
       },
     },
-    async (req, _reply) => {
+    async (req, reply) => {
       const form = req.body;
+      const id = Str.uuid();
+      const userEntity = UserEntity.create({ ...form, id });
+      await UserEntity.insert(userEntity);
 
-      return { status: 'success' };
+      return reply.status(200).send({ id });
     },
   );
 };

@@ -16,3 +16,9 @@ export const userQuerySchema = z
   );
 
 export type UserQueryInput = z.infer<typeof userQuerySchema>;
+
+export const userIdSchema = z.object({
+  id: SCHEMA.z.user.id,
+});
+
+export type UserIdInput = z.infer<typeof userIdSchema>;

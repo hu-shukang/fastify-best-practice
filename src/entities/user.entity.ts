@@ -7,6 +7,8 @@ import {
   CreateDateColumn,
   DeleteDateColumn,
   UpdateDateColumn,
+  IsNull,
+  ILike,
 } from 'typeorm';
 
 @Entity({ name: 'user_tbl' })
@@ -36,13 +38,15 @@ export class UserEntity extends BaseEntity {
   deleteAt?: Date;
 
   static queryList(input: UserQueryInput) {
-    const builder = this.createQueryBuilder('u').where('u.deleteAt is null');
-    if (input.id) {
-      builder.andWhere('u.id = :id', { id: input.id });
-    }
-    if (input.username) {
-      builder.andWhere('u.username like :username', { username: `%${input.username}%` });
-    }
-    return builder.orderBy('u.createdAt', 'DESC').getMany();
+    return this.find({
+      where: {
+        deleteAt: IsNull(),
+        id: input.id,
+        username: input.username ? ILike(`%${input.username}%`) : undefined,
+      },
+      order: {
+        createdAt: 'DESC',
+      },
+    });
   }
 }

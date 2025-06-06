@@ -4,7 +4,7 @@ import fp from 'fastify-plugin';
 import { hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod';
 
 const errorHandlerPlugin: FastifyPluginAsync = fp(async (fastify) => {
-  fastify.setErrorHandler((error, request, reply) => {
+  fastify.setErrorHandler((error, _request, reply) => {
     if (hasZodFastifySchemaValidationErrors(error)) {
       return reply.status(400).send({
         error: 'Response Validation Error',

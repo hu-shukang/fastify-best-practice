@@ -9,12 +9,16 @@ POST {{host}}/management/user HTTP/1.1
 Content-Type: {{contentType}}
 
 {
-    "username": "sample",
+    "username": "sample02",
     "address": "ab",
     "birthday": "2020-01-01T00:00:00Z",
-    "email": "abc@sample.com"
+    "email": "sample02@sample.com"
 }
 
-### ユーザ情報取得
+### ユーザ削除
 
-GET {{host}}/user?id=abc HTTP/1.1
+DELETE {{host}}/management/user/9728aea4-4e6b-4791-881a-dcfeea15fc58 HTTP/1.1
+
+### ユーザ検索
+
+GET {{host}}/user?username=sample HTTP/1.1
