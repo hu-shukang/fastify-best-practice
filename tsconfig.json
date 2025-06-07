@@ -16,13 +16,14 @@
     "strictNullChecks": true,
     "strictPropertyInitialization": false,
     "sourceMap": true,
+    "isolatedModules": true,
     "baseUrl": "./",
     "paths": {
       "@/*": ["./src/*"],
-      "@/test/*": ["./test/*"]
+      "@/tests/*": ["./tests/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/type.d.ts"],
+  "include": ["src/**/*.ts", "src/type.d.ts", "tests/**/*.ts"],
   "ts-node": {
     "files": true
   }

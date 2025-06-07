@@ -5,19 +5,19 @@ const getLogger = (): FastifyBaseLogger => requestContext.get('logger') ?? (cons
 
 export const logger: Pick<FastifyBaseLogger, 'info' | 'error' | 'warn' | 'debug'> = {
   get info() {
-    const logger = getLogger();
-    return logger.info.bind(logger);
+    const log = getLogger();
+    return log.info.bind(log);
   },
   get error() {
-    const logger = getLogger();
-    return logger.error.bind(logger);
+    const log = getLogger();
+    return log.error.bind(log);
   },
   get warn() {
-    const logger = getLogger();
-    return logger.warn.bind(logger);
+    const log = getLogger();
+    return log.warn.bind(log);
   },
   get debug() {
-    const logger = getLogger();
-    return logger.debug.bind(logger);
+    const log = getLogger();
+    return log.debug.bind(log);
   },
 };

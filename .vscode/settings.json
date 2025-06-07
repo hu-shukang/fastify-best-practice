@@ -4,6 +4,5 @@
   "editor.tabSize": 2,
   "prettier.printWidth": 120,
   "prettier.singleQuote": true,
-  "prettier.endOfLine": "lf",
-  "jest.enable": false,
+  "prettier.endOfLine": "lf"
 }

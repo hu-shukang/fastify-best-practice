@@ -7,9 +7,11 @@ const errorHandlerPlugin: FastifyPluginAsync = fp(async (fastify) => {
   fastify.setErrorHandler((error, _request, reply) => {
     if (hasZodFastifySchemaValidationErrors(error)) {
       return reply.status(400).send({
-        error: 'Response Validation Error',
-        message: "Request doesn't match the schema",
-        details: error.validation,
+        error: 'Validation Error',
+        details: error.validation.map((issue) => ({
+          message: issue.message,
+          path: issue.instancePath,
+        })),
       });
     }
 

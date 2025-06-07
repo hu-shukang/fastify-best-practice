@@ -60,6 +60,6 @@ export const AppDataSource = new DataSource({
   database: process.env.DB_NAME,
   entities: [UserEntity],
   migrations: ['src/migrations/*.{ts,js}'],
-  synchronize: process.env.NODE_ENV === 'dev',
+  synchronize: false,
   logger: new CustomLogger(),
 });
