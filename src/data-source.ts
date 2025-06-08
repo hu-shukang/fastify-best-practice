@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import 'reflect-metadata';
+import { DataSource, Logger, QueryRunner } from 'typeorm';
+
 import { UserEntity } from './entities/user.entity';
 import { logger } from './utils/logger.util';
-import 'reflect-metadata';
-import { DataSource, QueryRunner, Logger } from 'typeorm';
 
 class CustomLogger implements Logger {
   logQuery(query: string, parameters?: any[], _queryRunner?: QueryRunner) {

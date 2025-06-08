@@ -17,7 +17,7 @@ export default defineConfig([
       'node_modules/**/*',
       '**/swagger.global.plugin.ts',
       '**/migrations/**/*',
-      '**/test/**/*',
+      '**/tests/**/*',
     ],
   },
   {

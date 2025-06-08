@@ -1,6 +1,7 @@
-import { logger } from '@/utils/logger.util';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
+
+import { logger } from '@/utils/logger.util';
 
 const requestHookPlugin: FastifyPluginAsync = fp(async (fastify) => {
   fastify.addHook('preValidation', (request, _reply, next) => {

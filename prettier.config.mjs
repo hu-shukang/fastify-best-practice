@@ -9,4 +9,7 @@ export default {
   endOfLine: 'lf',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
   importOrderParserPlugins: ['typescript', 'decorators-legacy'],
+  importOrder: ['^tsconfig-paths/register$', '<THIRD_PARTY_MODULES>', '^@/(.*)$', '^[./]'],
+  importOrderSortSpecifiers: true,
+  importOrderSeparation: true,
 };

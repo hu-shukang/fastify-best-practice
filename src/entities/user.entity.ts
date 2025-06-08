@@ -1,18 +1,7 @@
-import { UserQueryInput } from '@/models/user.model';
-import {
-  Entity,
-  Column,
-  PrimaryColumn,
-  BaseEntity,
-  CreateDateColumn,
-  DeleteDateColumn,
-  UpdateDateColumn,
-  IsNull,
-  ILike,
-} from 'typeorm';
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity({ name: 'user_tbl' })
-export class UserEntity extends BaseEntity {
+export class UserEntity {
   @PrimaryColumn({ type: 'uuid' })
   id: string;
 
@@ -36,17 +25,4 @@ export class UserEntity extends BaseEntity {
 
   @DeleteDateColumn({ type: 'timestamp with time zone', nullable: true, select: false })
   deleteAt?: Date;
-
-  static queryList(input: UserQueryInput) {
-    return this.find({
-      where: {
-        deleteAt: IsNull(),
-        id: input.id,
-        username: input.username ? ILike(`%${input.username}%`) : undefined,
-      },
-      order: {
-        createdAt: 'DESC',
-      },
-    });
-  }
 }

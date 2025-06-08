@@ -1,16 +1,11 @@
-import { SCHEMA } from '../../../utils/const.util';
-import { UserEntity } from '@/entities/user.entity';
-import { Str } from '@/utils/string.util';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { z } from 'zod';
 
-const bodySchema = z.object({
-  username: SCHEMA.z.user.username,
-  address: SCHEMA.z.user.address,
-  birthday: SCHEMA.z.user.birthday,
-  email: SCHEMA.z.user.email,
-});
+import { UserEntity } from '@/entities/user.entity';
+import { userCreateInputSchema } from '@/models/user.model';
+import { SCHEMA } from '@/utils/const.util';
+import { dataSource } from '@/utils/db.util';
+import { Str } from '@/utils/string.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().post(
@@ -20,16 +15,18 @@ const routes = async (fastify: FastifyInstance) => {
         summary: 'ユーザ登録',
         description: 'ユーザ登録API',
         tags: [SCHEMA.tags.user.name],
-        body: bodySchema,
+        body: userCreateInputSchema,
       },
     },
-    async (req, reply) => {
+    async (req, _reply) => {
       const form = req.body;
       const id = Str.uuid();
-      const userEntity = UserEntity.create({ ...form, id });
-      await UserEntity.insert(userEntity);
+      const repository = dataSource.getRepository(UserEntity);
+      const userEntity = repository.create({ ...form, id });
 
-      return reply.status(200).send({ id });
+      await repository.insert(userEntity);
+
+      return { id };
     },
   );
 };

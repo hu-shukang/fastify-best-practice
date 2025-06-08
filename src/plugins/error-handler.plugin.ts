@@ -1,7 +1,8 @@
-import { logger } from '@/utils/logger.util';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { hasZodFastifySchemaValidationErrors } from 'fastify-type-provider-zod';
+
+import { logger } from '@/utils/logger.util';
 
 const errorHandlerPlugin: FastifyPluginAsync = fp(async (fastify) => {
   fastify.setErrorHandler((error, _request, reply) => {
@@ -18,7 +19,7 @@ const errorHandlerPlugin: FastifyPluginAsync = fp(async (fastify) => {
     logger.error(error);
 
     reply.status(error.statusCode || 500).send({
-      status: 'error',
+      error: error.name || 'Internal Server Error',
       message: error.message,
     });
   });

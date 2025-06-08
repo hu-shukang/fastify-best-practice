@@ -1,8 +1,9 @@
-import { SCHEMA } from '@/utils/const.util';
-import { logger } from '@/utils/logger.util';
 import { requestContext } from '@fastify/request-context';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
+
+import { SCHEMA } from '@/utils/const.util';
+import { logger } from '@/utils/logger.util';
 
 const ignorePaths = [SCHEMA.swagger.routePrefix];
 

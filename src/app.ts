@@ -1,5 +1,5 @@
 import autoLoad from '@fastify/autoload';
-import fastify, { FastifyServerOptions, FastifyInstance } from 'fastify';
+import fastify, { FastifyInstance, FastifyServerOptions } from 'fastify';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import { join } from 'path';
 

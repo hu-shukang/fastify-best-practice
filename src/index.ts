@@ -1,5 +1,6 @@
-import { build } from './app';
 import 'reflect-metadata';
+
+import { build } from './app';
 
 const app = build();
 
