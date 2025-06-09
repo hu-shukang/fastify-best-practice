@@ -16,6 +16,7 @@ const envPlugin: FastifyPluginAsync = fp(async (fastify) => {
         DB_USER: { type: 'string' },
         DB_PASSWORD: { type: 'string' },
         DB_NAME: { type: 'string' },
+        LOG_LEVEL: { type: 'string', enum: ['trace', 'debug', 'info', 'warn', 'error', 'fatal'], default: 'info' },
       },
     },
   });
