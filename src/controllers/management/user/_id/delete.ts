@@ -1,10 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
-import { dataSource } from '@/utils/db.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().delete(
@@ -19,8 +18,14 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, reply) => {
       const { id } = req.params;
-      const repository = dataSource.getRepository(UserEntity);
-      await repository.softDelete({ id });
+
+      await db
+        .updateTable('user_tbl')
+        .where('id', '=', id)
+        .set({
+          deleteAt: new Date(),
+        })
+        .execute();
 
       return reply.status(200).send();
     },

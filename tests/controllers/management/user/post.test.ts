@@ -1,18 +1,16 @@
 import supertest from 'supertest';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { UserCreateInput } from '@/models/user.model';
 import { setupFastify } from '@/tests/helpers/fastify.helper';
 import { Str } from '@/utils/string.util';
 
 describe('POST /management/user', () => {
-  let mockedUserInsert: jest.SpyInstance;
   let mockGetUUID: jest.SpyInstance;
   const mockUUID = crypto.randomUUID();
   const { getApp } = setupFastify();
 
   beforeEach(() => {
-    mockedUserInsert = jest.spyOn(UserEntity, 'insert').mockResolvedValue({} as any);
     mockGetUUID = jest.spyOn(Str, 'uuid').mockReturnValue(mockUUID);
   });
 
@@ -34,14 +32,14 @@ describe('POST /management/user', () => {
         id: mockUUID,
       });
 
-      expect(mockedUserInsert).toHaveBeenCalledTimes(1);
       expect(mockGetUUID).toHaveBeenCalledTimes(1);
-      expect(mockedUserInsert).toHaveBeenCalledWith(
-        UserEntity.create({
-          ...body,
+      const user = await db.selectFrom('user_tbl').where('id', '=', mockUUID).selectAll().executeTakeFirst();
+      expect(user).toEqual(
+        expect.objectContaining({
           id: mockUUID,
         }),
       );
+      await db.deleteFrom('user_tbl').where('id', '=', mockUUID).execute();
     });
   });
 
@@ -65,7 +63,6 @@ describe('POST /management/user', () => {
             { message: 'メールアドレスはメールアドレスの形式である必要があります', path: '/email' },
           ],
         });
-      expect(mockedUserInsert).toHaveBeenCalledTimes(0);
       expect(mockGetUUID).toHaveBeenCalledTimes(0);
     });
   });
@@ -79,22 +76,13 @@ describe('POST /management/user', () => {
         birthday: new Date('1990-01-01').toISOString(),
         email: 'abc@sample.com',
       };
-      const error = new Error('Database error');
-      error.name = 'Internal Server Error';
-      mockedUserInsert.mockRejectedValue(error);
+      mockGetUUID.mockReturnValue('123e4567-e89b-12d3-a456-426614174000');
 
       await supertest(app.server).post('/management/user').send(body).expect(500).expect({
-        error: 'Internal Server Error',
-        message: 'Database error',
+        error: 'error',
+        message: '重複したキー値は一意性制約"user_tbl_pkey"違反となります',
       });
-      expect(mockedUserInsert).toHaveBeenCalledTimes(1);
       expect(mockGetUUID).toHaveBeenCalledTimes(1);
-      expect(mockedUserInsert).toHaveBeenCalledWith(
-        UserEntity.create({
-          ...body,
-          id: mockUUID,
-        }),
-      );
     });
   });
 });

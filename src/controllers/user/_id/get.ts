@@ -1,10 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
-import { dataSource } from '@/utils/db.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -19,8 +18,7 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const { id } = req.params;
-      const repository = dataSource.getRepository(UserEntity);
-      return await repository.findOneByOrFail({ id });
+      return await db.selectFrom('user_tbl').where('id', '=', id).selectAll().executeTakeFirstOrThrow();
     },
   );
 };

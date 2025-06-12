@@ -8,13 +8,9 @@
     "skipLibCheck": true,
     "moduleResolution": "node16",
     "outDir": "dist",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
     "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "forceConsistentCasingInFileNames": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": false,
     "sourceMap": true,
     "isolatedModules": true,
     "baseUrl": "./",
@@ -23,7 +19,7 @@
       "@/tests/*": ["./tests/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/type.d.ts", "tests/**/*.ts"],
+  "include": ["src/**/*.ts", "src/type.d.ts", "tests/**/*.ts", ".config/**/*.ts"],
   "ts-node": {
     "files": true
   }

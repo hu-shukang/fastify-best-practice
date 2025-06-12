@@ -1,10 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { userCreateInputSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
-import { dataSource } from '@/utils/db.util';
 import { Str } from '@/utils/string.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -21,10 +20,11 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const form = req.body;
       const id = Str.uuid();
-      const repository = dataSource.getRepository(UserEntity);
-      const userEntity = repository.create({ ...form, id });
 
-      await repository.insert(userEntity);
+      await db
+        .insertInto('user_tbl')
+        .values({ ...form, id })
+        .execute();
 
       return { id };
     },

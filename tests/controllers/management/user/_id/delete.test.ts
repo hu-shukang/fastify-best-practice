@@ -1,17 +1,11 @@
-import { FastifyInstance } from 'fastify';
 import supertest from 'supertest';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { setupFastify } from '@/tests/helpers/fastify.helper';
 
 describe('DELETE /management/user/_id', () => {
   const { getApp } = setupFastify();
-  let mockedUserSoftRemove: jest.SpyInstance;
   const mockUUID = crypto.randomUUID();
-
-  beforeEach(() => {
-    mockedUserSoftRemove = jest.spyOn(UserEntity, 'softRemove').mockResolvedValue({} as any);
-  });
 
   afterEach(() => {
     jest.clearAllMocks();
@@ -22,14 +16,27 @@ describe('DELETE /management/user/_id', () => {
       const app = getApp();
       const userId = mockUUID;
 
+      await db
+        .insertInto('user_tbl')
+        .values({
+          id: userId,
+          username: 'testuser',
+          email: 'test@example.com',
+          address: '123 Test St',
+          birthday: new Date('2000-01-01T00:00:00Z'),
+          createdAt: new Date(),
+        })
+        .execute();
+
       await supertest(app.server).delete(`/management/user/${userId}`).expect(200);
 
-      expect(mockedUserSoftRemove).toHaveBeenCalledTimes(1);
-      expect(mockedUserSoftRemove).toHaveBeenCalledWith(
-        UserEntity.create({
-          id: mockUUID,
-        }),
-      );
+      const user = await db
+        .selectFrom('user_tbl')
+        .selectAll()
+        .where('id', '=', userId)
+        .where('deleteAt', 'is', null)
+        .executeTakeFirst();
+      expect(user).toBeUndefined();
     });
   });
 
@@ -44,7 +51,6 @@ describe('DELETE /management/user/_id', () => {
           error: 'Validation Error',
           details: [{ message: 'ユーザIDはUUIDである必要があります', path: '/id' }],
         });
-      expect(mockedUserSoftRemove).toHaveBeenCalledTimes(0);
     });
   });
 });

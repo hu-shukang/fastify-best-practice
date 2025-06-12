@@ -10,7 +10,7 @@ const envPlugin: FastifyPluginAsync = fp(async (fastify) => {
       required: ['NODE_ENV', 'PORT', 'DB_HOST', 'DB_USER', 'DB_PASSWORD', 'DB_NAME'],
       additionalProperties: false,
       properties: {
-        NODE_ENV: { type: 'string', enum: ['dev', 'it', 'prod'] },
+        NODE_ENV: { type: 'string', enum: ['test', 'dev', 'it', 'prod'] },
         PORT: { type: 'number', default: 8080 },
         DB_HOST: { type: 'string' },
         DB_USER: { type: 'string' },

@@ -1,17 +1,9 @@
 import supertest from 'supertest';
 
-import { UserEntity } from '@/entities/user.entity';
 import { setupFastify } from '@/tests/helpers/fastify.helper';
 
 describe('GET /user/_id Endpoint', () => {
   const { getApp } = setupFastify();
-  let mockedUserFindOneBy: jest.SpyInstance;
-  const mockUUID = crypto.randomUUID();
-
-  beforeEach(() => {
-    mockedUserFindOneBy = jest.spyOn(UserEntity, 'findOneBy');
-  });
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -19,12 +11,13 @@ describe('GET /user/_id Endpoint', () => {
   describe('正常', () => {
     it('成功的なリクエスト', async () => {
       const app = getApp();
-      const mockUser = { id: mockUUID, username: 'Alice', email: 'alice@example.com' };
-      mockedUserFindOneBy.mockResolvedValue(mockUser);
+      const id = '123e4567-e89b-12d3-a456-426614174000';
 
-      await supertest(app.server).get(`/user/${mockUUID}`).expect(200).expect(mockUser);
-      expect(mockedUserFindOneBy).toHaveBeenCalledTimes(1);
-      expect(mockedUserFindOneBy).toHaveBeenCalledWith({ id: mockUUID });
+      const resp = await supertest(app.server).get(`/user/${id}`).expect(200);
+      expect(resp.body.username).toBe('user1');
+      expect(resp.body.email).toBe('user1@example.com');
+      expect(resp.body.address).toBe('123 Main St');
+      expect(resp.body.birthday).toBe(new Date('1990-01-01T00:00:00Z').toISOString());
     });
   });
 
@@ -39,7 +32,6 @@ describe('GET /user/_id Endpoint', () => {
           error: 'Validation Error',
           details: [{ message: 'ユーザIDはUUIDである必要があります', path: '/id' }],
         });
-      expect(mockedUserFindOneBy).toHaveBeenCalledTimes(0);
     });
   });
 });

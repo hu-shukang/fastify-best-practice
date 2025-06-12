@@ -8,7 +8,7 @@ export default {
   trailingComma: 'all',
   endOfLine: 'lf',
   plugins: ['@trivago/prettier-plugin-sort-imports'],
-  importOrderParserPlugins: ['typescript', 'decorators-legacy'],
+  importOrderParserPlugins: ['typescript'],
   importOrder: ['^tsconfig-paths/register$', '<THIRD_PARTY_MODULES>', '^@/(.*)$', '^[./]'],
   importOrderSortSpecifiers: true,
   importOrderSeparation: true,

@@ -1,11 +1,9 @@
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { ILike, IsNull } from 'typeorm';
 
-import { UserEntity } from '@/entities/user.entity';
+import { db } from '@/database';
 import { userQuerySchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
-import { dataSource } from '@/utils/db.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -20,17 +18,15 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const { id, username } = req.query;
-      const repository = dataSource.getRepository(UserEntity);
-      return await repository.find({
-        where: {
-          deleteAt: IsNull(),
-          id: id,
-          username: username ? ILike(`%${username}%`) : undefined,
-        },
-        order: {
-          createdAt: 'DESC',
-        },
-      });
+      let query = db.selectFrom('user_tbl').where('deleteAt', 'is', null);
+      if (id) {
+        query = query.where('id', '=', id);
+      }
+      if (username) {
+        query = query.where('username', 'like', `%${username}%`);
+      }
+      query = query.orderBy('createdAt', 'desc');
+      return await query.selectAll().execute();
     },
   );
 };
