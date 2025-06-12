@@ -18,7 +18,7 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const { id } = req.params;
-      return await db.selectFrom('user_tbl').where('id', '=', id).selectAll().executeTakeFirstOrThrow();
+      return await db.selectFrom('userTbl').where('id', '=', id).selectAll().executeTakeFirstOrThrow();
     },
   );
 };

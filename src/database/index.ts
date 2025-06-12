@@ -1,5 +1,4 @@
-import { Kysely, PostgresDialect } from 'kysely';
-// this is the Database interface we defined earlier
+import { CamelCasePlugin, Kysely, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 
 import { logger } from '@/utils/logger.util';
@@ -27,6 +26,7 @@ export const createDB = () => {
       logger.info(event.query.parameters);
       logger.info(event.queryDurationMillis);
     },
+    plugins: [new CamelCasePlugin()],
   });
 };
 

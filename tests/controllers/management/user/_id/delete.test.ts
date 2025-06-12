@@ -17,21 +17,20 @@ describe('DELETE /management/user/_id', () => {
       const userId = mockUUID;
 
       await db
-        .insertInto('user_tbl')
+        .insertInto('userTbl')
         .values({
           id: userId,
-          username: 'testuser',
+          username: 'test',
           email: 'test@example.com',
           address: '123 Test St',
           birthday: new Date('2000-01-01T00:00:00Z'),
-          createdAt: new Date(),
         })
         .execute();
 
       await supertest(app.server).delete(`/management/user/${userId}`).expect(200);
 
       const user = await db
-        .selectFrom('user_tbl')
+        .selectFrom('userTbl')
         .selectAll()
         .where('id', '=', userId)
         .where('deleteAt', 'is', null)

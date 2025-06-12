@@ -1,4 +1,4 @@
-import { PostgresDialect } from 'kysely';
+import { CamelCasePlugin, PostgresDialect } from 'kysely';
 import { defineConfig } from 'kysely-ctl';
 import { Pool } from 'pg';
 
@@ -20,5 +20,5 @@ export default defineConfig({
   seeds: {
     seedFolder: '.config/seeds',
   },
-  //   plugins: [],
+  plugins: [new CamelCasePlugin()],
 });

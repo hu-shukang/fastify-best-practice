@@ -33,13 +33,13 @@ describe('POST /management/user', () => {
       });
 
       expect(mockGetUUID).toHaveBeenCalledTimes(1);
-      const user = await db.selectFrom('user_tbl').where('id', '=', mockUUID).selectAll().executeTakeFirst();
+      const user = await db.selectFrom('userTbl').where('id', '=', mockUUID).selectAll().executeTakeFirst();
       expect(user).toEqual(
         expect.objectContaining({
           id: mockUUID,
         }),
       );
-      await db.deleteFrom('user_tbl').where('id', '=', mockUUID).execute();
+      await db.deleteFrom('userTbl').where('id', '=', mockUUID).execute();
     });
   });
 

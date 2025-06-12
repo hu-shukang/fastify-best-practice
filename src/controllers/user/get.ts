@@ -18,7 +18,7 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const { id, username } = req.query;
-      let query = db.selectFrom('user_tbl').where('deleteAt', 'is', null);
+      let query = db.selectFrom('userTbl').where('deleteAt', 'is', null);
       if (id) {
         query = query.where('id', '=', id);
       }

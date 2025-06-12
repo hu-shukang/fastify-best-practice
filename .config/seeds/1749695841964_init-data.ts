@@ -8,7 +8,7 @@ export async function seed(db: Kysely<Database>): Promise<void> {
   const user3Id = '123e4567-e89b-12d3-a456-426614174002'; // Example UUID for user3
 
   await db
-    .insertInto('user_tbl')
+    .insertInto('userTbl')
     .values([
       {
         id: user1Id,

@@ -11,11 +11,11 @@
     "lint": "eslint . --fix",
     "migrate:init": "kysely init",
     "migrate:generate": "kysely migrate:generate",
-    "migrate:latest": "kysely migrate:latest",
-    "seed:make": "kysely seed:make -x=ts init-data",
-    "seed:run": "dotenv -e env/.env -- kysely seed:run",
+    "migrate:latest": "dotenv -e env/.env -- kysely migrate:latest",
     "migrate:down": "dotenv -e env/.env -- kysely migrate:down",
     "migrate:up": "dotenv -e env/.env -- kysely migrate:up",
+    "seed:make": "kysely seed:make -x=ts init-data",
+    "seed:run": "dotenv -e env/.env -- kysely seed:run",
     "test": "jest"
   },
   "repository": {

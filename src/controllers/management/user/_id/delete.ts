@@ -20,7 +20,7 @@ const routes = async (fastify: FastifyInstance) => {
       const { id } = req.params;
 
       await db
-        .updateTable('user_tbl')
+        .updateTable('userTbl')
         .where('id', '=', id)
         .set({
           deleteAt: new Date(),

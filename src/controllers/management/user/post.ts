@@ -22,7 +22,7 @@ const routes = async (fastify: FastifyInstance) => {
       const id = Str.uuid();
 
       await db
-        .insertInto('user_tbl')
+        .insertInto('userTbl')
         .values({ ...form, id })
         .execute();
 
