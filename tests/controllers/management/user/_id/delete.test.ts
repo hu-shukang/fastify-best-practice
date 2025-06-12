@@ -29,12 +29,7 @@ describe('DELETE /management/user/_id', () => {
 
       await supertest(app.server).delete(`/management/user/${userId}`).expect(200);
 
-      const user = await db
-        .selectFrom('userTbl')
-        .selectAll()
-        .where('id', '=', userId)
-        .where('deleteAt', 'is', null)
-        .executeTakeFirst();
+      const user = await db.selectFrom('userTbl').selectAll().where('id', '=', userId).executeTakeFirst();
       expect(user).toBeUndefined();
     });
   });
