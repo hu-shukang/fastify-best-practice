@@ -1,10 +1,8 @@
-import 'reflect-metadata';
-
 import { build } from './app';
 
 const app = build();
 
-app.listen({ host: '0.0.0.0', port: app.config.PORT }, (err, address) => {
+app.listen({ host: '0.0.0.0', port: Number(process.env.PORT) || 3000 }, (err, address) => {
   if (err) {
     console.error(err);
     process.exit(1);

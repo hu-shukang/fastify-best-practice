@@ -21,4 +21,4 @@ DELETE {{host}}/management/user/9728aea4-4e6b-4791-881a-dcfeea15fc58 HTTP/1.1
 
 ### ユーザ検索
 
-GET {{host}}/user?id=sample HTTP/1.1
+GET {{host}}/user/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1

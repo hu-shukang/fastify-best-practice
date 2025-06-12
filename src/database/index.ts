@@ -22,9 +22,9 @@ export const createDB = () => {
   db = new Kysely<Database>({
     dialect,
     log(event): void {
-      logger.info(event.query.sql);
+      logger.info(event.query.sql.split('\n').join(' ').replace(/\s+/g, ' '));
       logger.info(event.query.parameters);
-      logger.info(event.queryDurationMillis);
+      logger.info(event.queryDurationMillis.toFixed(0) + 'ms');
     },
     plugins: [new CamelCasePlugin()],
   });
