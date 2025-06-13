@@ -37,7 +37,7 @@ export function build(opts?: FastifyServerOptions): FastifyInstance {
   });
 
   server.register(autoLoad, {
-    dir: join(__dirname, 'controllers'),
+    dir: join(__dirname, 'routes'),
     routeParams: true,
     dirNameRoutePrefix: true,
     autoHooks: true,

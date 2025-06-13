@@ -1,4 +1,4 @@
-import { CamelCasePlugin, Kysely, PostgresDialect } from 'kysely';
+import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 
 import { logger } from '@/utils/logger.util';
@@ -26,7 +26,7 @@ export const createDB = () => {
       logger.info(event.query.parameters);
       logger.info(event.queryDurationMillis.toFixed(0) + 'ms');
     },
-    plugins: [new CamelCasePlugin()],
+    plugins: [new CamelCasePlugin(), new ParseJSONResultsPlugin()],
   });
 };
 

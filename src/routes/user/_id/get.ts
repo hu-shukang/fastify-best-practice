@@ -1,9 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { sql } from 'kysely';
 
 import { db } from '@/database';
-import { BookSummary } from '@/database/types/book.type';
 import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 
@@ -20,20 +18,8 @@ const routes = async (fastify: FastifyInstance) => {
     },
     async (req, _reply) => {
       const { id } = req.params;
-      return await db
-        .selectFrom('userTbl as u')
-        .selectAll('u')
-        .select((_eb) =>
-          sql<BookSummary[]>`(
-            SELECT COALESCE(json_agg(
-              json_build_object('id', p.id, 'title', p.title, 'createdAt', p.created_at)
-            ), '[]'::json)
-            FROM book_tbl p
-            WHERE p.user_id = u.id
-          )`.as('books'),
-        )
-        .where('u.id', '=', id)
-        .execute();
+
+      return await db.selectFrom('userTbl as u').selectAll('u').where('u.id', '=', id).executeTakeFirstOrThrow();
     },
   );
 };

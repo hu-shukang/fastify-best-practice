@@ -11,7 +11,7 @@ declare module '@fastify/request-context' {
 declare module 'fastify' {
   interface FastifyInstance {
     config: {
-      NODE_ENV: 'dev' | 'it' | 'prod';
+      NODE_ENV: 'test' | 'dev' | 'it' | 'prod';
       PORT: number;
       DB_HOST: string;
       DB_USER: string;

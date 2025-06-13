@@ -24,7 +24,7 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
           },
         ],
         // APIのカテゴリーごとにタグを設定
-        tags: [SCHEMA.tags.user],
+        tags: [SCHEMA.tags.user, SCHEMA.tags.book, SCHEMA.tags.management],
       },
     });
     await fastify.register(swaggerUi, {
