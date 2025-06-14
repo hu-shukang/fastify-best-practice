@@ -1,7 +1,7 @@
 import type { StartedPostgreSqlContainer } from '@testcontainers/postgresql';
 
 export default async () => {
-  console.log('\nteardown...');
+  console.log('\nteardown');
 
   const container: StartedPostgreSqlContainer = (global as any).__TESTCONTAINER__;
   if (container) {
