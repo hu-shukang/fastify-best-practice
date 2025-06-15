@@ -41,6 +41,7 @@ export const SCHEMA = {
         .uuid({ message: '書籍IDはUUIDである必要があります' })
         .describe('書籍ID'),
       title: z.string({ message: '書籍名は文字列である必要があります' }).describe('書籍名'),
+      content: z.string({ message: '書籍内容は文字列である必要があります' }).describe('書籍内容'),
     },
   },
 } as const;

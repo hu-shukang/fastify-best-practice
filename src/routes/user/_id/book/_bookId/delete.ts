@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { userIdSchema } from '@/models/user.model';
+import { bookDeleteInputSchema } from '@/models/book.model';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -10,16 +10,16 @@ const routes = async (fastify: FastifyInstance) => {
     '',
     {
       schema: {
-        summary: 'ユーザ削除',
-        description: 'ユーザIDを指定してユーザを削除します',
-        tags: [SCHEMA.tags.management.name],
-        params: userIdSchema,
+        summary: '書籍削除',
+        description: 'ユーザIDで書籍を削除します',
+        tags: [SCHEMA.tags.user.name],
+        params: bookDeleteInputSchema,
       },
     },
     async (req, reply) => {
-      const { id } = req.params;
+      const { id: userId, bookId } = req.params;
 
-      await db.deleteFrom('userTbl').where('id', '=', id).execute();
+      await db.deleteFrom('bookTbl').where('id', '=', bookId).where('userId', '=', userId).execute();
 
       return reply.status(200).send();
     },

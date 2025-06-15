@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { userCreateInputSchema } from '@/models/user.model';
+import { bookCreateInputSchema } from '@/models/book.model';
+import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 import { Str } from '@/utils/string.util';
 
@@ -11,19 +12,21 @@ const routes = async (fastify: FastifyInstance) => {
     '',
     {
       schema: {
-        summary: 'ユーザ登録',
-        description: 'ユーザ登録API',
-        tags: [SCHEMA.tags.management.name],
-        body: userCreateInputSchema,
+        summary: '書籍登録',
+        description: 'ユーザから書籍を登録します',
+        tags: [SCHEMA.tags.user.name],
+        params: userIdSchema,
+        body: bookCreateInputSchema,
       },
     },
     async (req, _reply) => {
       const form = req.body;
-      const id = Str.uuid();
+      const { id: userId } = req.params;
 
+      const id = Str.uuid();
       await db
-        .insertInto('userTbl')
-        .values({ ...form, id })
+        .insertInto('bookTbl')
+        .values({ ...form, id, userId })
         .execute();
 
       return { id };

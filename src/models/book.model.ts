@@ -28,3 +28,24 @@ export type BookQueryInput = z.infer<typeof bookQuerySchema>;
 export const bookIdSchema = z.object({
   id: SCHEMA.z.book.id,
 });
+
+// ===================================
+// Book Create Input Schema
+// ===================================
+export const bookCreateInputSchema = z.object({
+  id: SCHEMA.z.book.id,
+  title: SCHEMA.z.book.title,
+  content: SCHEMA.z.book.content,
+});
+
+export type BookCreateInput = z.infer<typeof bookCreateInputSchema>;
+
+// ===================================
+// Book Delete Input Schema
+// ===================================
+export const bookDeleteInputSchema = z.object({
+  id: SCHEMA.z.user.id,
+  bookId: SCHEMA.z.book.id,
+});
+
+export type BookDeleteInput = z.infer<typeof bookDeleteInputSchema>;

@@ -19,6 +19,11 @@ Content-Type: {{contentType}}
 
 DELETE {{host}}/management/user/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
 
-### ユーザ検索
+### ユーザ取得
 
 GET {{host}}/user/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
+
+
+### 書籍取得
+
+GET {{host}}/book?title=Book One HTTP/1.1
