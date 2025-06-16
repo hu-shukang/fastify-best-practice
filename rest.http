@@ -24,6 +24,8 @@ DELETE {{host}}/management/user/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
 GET {{host}}/user/123e4567-e89b-12d3-a456-426614174000 HTTP/1.1
 
 
-### 書籍取得
-
+### 書籍検索
 GET {{host}}/book?title=Book One HTTP/1.1
+
+### 書籍取得
+GET {{host}}/book/3fa85f64-5717-4562-b3fc-2c963f66 HTTP/1.1

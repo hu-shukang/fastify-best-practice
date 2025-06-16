@@ -1,3 +1,4 @@
+import { FastifyInstance } from 'fastify';
 import { CamelCasePlugin, Kysely, ParseJSONResultsPlugin, PostgresDialect } from 'kysely';
 import { Pool } from 'pg';
 
@@ -7,14 +8,14 @@ import { Database } from './types';
 
 export let db: Kysely<Database>;
 
-export const createDB = () => {
+export const createDB = (fastify: FastifyInstance) => {
   const dialect = new PostgresDialect({
     pool: new Pool({
-      database: process.env.DB_NAME,
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      port: Number(process.env.DB_PORT),
+      database: fastify.config.DB_NAME,
+      host: fastify.config.DB_HOST,
+      user: fastify.config.DB_USER,
+      password: fastify.config.DB_PASSWORD,
+      port: fastify.config.DB_PORT,
       max: 10,
     }),
   });

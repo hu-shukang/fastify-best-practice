@@ -49,3 +49,28 @@ export const bookDeleteInputSchema = z.object({
 });
 
 export type BookDeleteInput = z.infer<typeof bookDeleteInputSchema>;
+
+// ===================================
+// Book Get Response Schema
+// ===================================
+export const bookGetResponseSchema = z.object({
+  id: SCHEMA.z.book.id,
+  title: SCHEMA.z.book.title,
+  content: SCHEMA.z.book.content,
+  createdAt: SCHEMA.z.common.createdAt,
+  updatedAt: SCHEMA.z.common.updatedAt.nullable(),
+});
+
+// ===================================
+// Book Query Response Schema
+// ===================================
+export const bookQueryResponseItemSchema = z.object({
+  id: SCHEMA.z.book.id,
+  title: SCHEMA.z.book.title,
+  createdAt: SCHEMA.z.common.createdAt,
+  updatedAt: SCHEMA.z.common.updatedAt.nullable(),
+  username: SCHEMA.z.user.username,
+  userId: SCHEMA.z.user.id,
+});
+
+export const bookQueryResponseSchema = z.array(bookQueryResponseItemSchema);

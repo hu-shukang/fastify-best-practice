@@ -6,7 +6,7 @@ import { logger } from '@/utils/logger.util';
 
 const dbPlugin: FastifyPluginAsync = fp(async (fastify) => {
   logger.info('Initializing database connection...');
-  createDB();
+  createDB(fastify);
 
   fastify.addHook('onClose', async () => {
     logger.info('Closing database connection...');

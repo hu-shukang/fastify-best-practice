@@ -7,7 +7,7 @@ import { jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { SCHEMA } from '../utils/const.util';
 
 const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
-  if (process.env.NODE_ENV === 'dev') {
+  if (fastify.config.SWAGGER === 'ON') {
     await fastify.register(swagger, {
       transform: jsonSchemaTransform,
       openapi: {
@@ -19,7 +19,7 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
         },
         servers: [
           {
-            url: `http://127.0.0.1:${process.env.PORT}`,
+            url: `http://127.0.0.1:${fastify.config.PORT}`,
             description: 'Development server',
           },
         ],
@@ -41,14 +41,9 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
           next();
         },
       },
-      staticCSP: true,
-      transformStaticCSP: (header: string) => {
-        return header;
-      },
-      transformSpecification: (swaggerObject: any) => {
-        return swaggerObject;
-      },
+      staticCSP: false,
       transformSpecificationClone: true,
+      logLevel: 'silent',
     });
   }
 });

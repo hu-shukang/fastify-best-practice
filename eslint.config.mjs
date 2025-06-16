@@ -15,7 +15,7 @@ export default defineConfig([
       'prettier.config.mjs',
       'dist/**/*',
       'node_modules/**/*',
-      '**/swagger.plugin.ts',
+      '**/*swagger.plugin.ts',
       '**/migrations/**/*',
       '**/tests/**/*',
     ],

@@ -19,6 +19,13 @@ export const SCHEMA = {
     },
   },
   z: {
+    common: {
+      createdAt: z.string().datetime().describe('作成日時'),
+      updatedAt: z.string().datetime().describe('更新日時'),
+      error: z.string().describe('エラー'),
+      message: z.string().describe('メッセージ'),
+      path: z.string().describe('パス'),
+    },
     user: {
       id: z
         .string({ message: 'ユーザIDは文字列である必要があります' })
