@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { userIdSchema } from '@/models/user.model';
+import { badRequestSchema, notFoundSchema } from '@/models/common.model';
+import { userGetResponseSchema, userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -14,6 +15,11 @@ const routes = async (fastify: FastifyInstance) => {
         description: 'ユーザIDを指定してユーザを取得します',
         tags: [SCHEMA.tags.user.name],
         params: userIdSchema,
+        response: {
+          200: userGetResponseSchema,
+          401: badRequestSchema,
+          404: notFoundSchema,
+        },
       },
     },
     async (req, _reply) => {

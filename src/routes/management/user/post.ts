@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { userCreateInputSchema } from '@/models/user.model';
+import { badRequestSchema } from '@/models/common.model';
+import { userCreateInputSchema, userCreateResponseSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 import { Str } from '@/utils/string.util';
 
@@ -15,6 +16,10 @@ const routes = async (fastify: FastifyInstance) => {
         description: 'ユーザ登録API',
         tags: [SCHEMA.tags.management.name],
         body: userCreateInputSchema,
+        response: {
+          200: userCreateResponseSchema,
+          401: badRequestSchema,
+        },
       },
     },
     async (req, _reply) => {

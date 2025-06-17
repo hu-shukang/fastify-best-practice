@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { userQuerySchema } from '@/models/user.model';
+import { badRequestSchema } from '@/models/common.model';
+import { userQueryResponseSchema, userQuerySchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -14,6 +15,10 @@ const routes = async (fastify: FastifyInstance) => {
         description: 'Query条件でユーザを検索します',
         tags: [SCHEMA.tags.user.name],
         querystring: userQuerySchema,
+        response: {
+          200: userQueryResponseSchema,
+          401: badRequestSchema,
+        },
       },
     },
     async (req, _reply) => {

@@ -25,6 +25,7 @@ export const SCHEMA = {
       error: z.string().describe('エラー'),
       message: z.string().describe('メッセージ'),
       path: z.string().describe('パス'),
+      success: z.literal('OK').describe('成功'),
     },
     user: {
       id: z
@@ -51,4 +52,8 @@ export const SCHEMA = {
       content: z.string({ message: '書籍内容は文字列である必要があります' }).describe('書籍内容'),
     },
   },
+} as const;
+
+export const RESPONSE = {
+  success: { success: 'OK' },
 } as const;

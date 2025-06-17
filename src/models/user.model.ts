@@ -42,3 +42,37 @@ export const userCreateInputSchema = z.object({
 });
 
 export type UserCreateInput = z.infer<typeof userCreateInputSchema>;
+
+// ===================================
+// User Create Response Schema
+// ===================================
+
+export const userCreateResponseSchema = z.object({
+  id: SCHEMA.z.user.id,
+});
+
+export type UserCreateResponse = z.infer<typeof userCreateResponseSchema>;
+
+// ===================================
+// User Get Response Schema
+// ===================================
+
+export const userGetResponseSchema = z.object({
+  id: SCHEMA.z.user.id,
+  username: SCHEMA.z.user.username,
+  address: SCHEMA.z.user.address,
+  birthday: SCHEMA.z.user.birthday,
+  email: SCHEMA.z.user.email,
+  createdAt: SCHEMA.z.common.createdAt,
+  updatedAt: SCHEMA.z.common.updatedAt.nullable(),
+});
+
+export type UserGetResponse = z.infer<typeof userGetResponseSchema>;
+
+// ===================================
+// User Query Response Schema
+// ===================================
+
+export const userQueryResponseSchema = z.array(userGetResponseSchema);
+
+export type UserQuerytResponse = z.infer<typeof userQueryResponseSchema>;

@@ -3,6 +3,15 @@ import { z } from 'zod';
 import { SCHEMA } from '@/utils/const.util';
 
 // ===================================
+// 200 Response Schema
+// ===================================
+export const successSchema = z
+  .object({
+    success: SCHEMA.z.common.success,
+  })
+  .describe('Success');
+
+// ===================================
 // 400 Response Schema
 // ===================================
 export const badRequestSchema = z

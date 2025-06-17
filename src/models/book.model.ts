@@ -74,3 +74,13 @@ export const bookQueryResponseItemSchema = z.object({
 });
 
 export const bookQueryResponseSchema = z.array(bookQueryResponseItemSchema);
+
+// ===================================
+// Book Create Response Schema
+// ===================================
+
+export const bookCreateResponseSchema = z.object({
+  id: SCHEMA.z.book.id,
+});
+
+export type BookCreateResponse = z.infer<typeof bookCreateResponseSchema>;

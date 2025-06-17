@@ -2,7 +2,8 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { bookCreateInputSchema } from '@/models/book.model';
+import { bookCreateInputSchema, bookCreateResponseSchema } from '@/models/book.model';
+import { badRequestSchema } from '@/models/common.model';
 import { userIdSchema } from '@/models/user.model';
 import { SCHEMA } from '@/utils/const.util';
 import { Str } from '@/utils/string.util';
@@ -17,6 +18,10 @@ const routes = async (fastify: FastifyInstance) => {
         tags: [SCHEMA.tags.user.name],
         params: userIdSchema,
         body: bookCreateInputSchema,
+        response: {
+          200: bookCreateResponseSchema,
+          401: badRequestSchema,
+        },
       },
     },
     async (req, _reply) => {
