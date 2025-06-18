@@ -25,6 +25,20 @@ const swaggerPlugin: FastifyPluginAsync = fp(async (fastify) => {
         ],
         // APIのカテゴリーごとにタグを設定
         tags: [SCHEMA.tags.user, SCHEMA.tags.book, SCHEMA.tags.management],
+        components: {
+          securitySchemes: {
+            bearerAuth: {
+              type: 'http',
+              scheme: 'bearer',
+              bearerFormat: 'JWT',
+            },
+          },
+        },
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
       },
     });
     await fastify.register(swaggerUi, {

@@ -5,13 +5,12 @@ import fp from 'fastify-plugin';
 const requestContextHook: FastifyPluginAsync = fp(async (fastify) => {
   fastify.register(fastifyRequestContext, {
     defaultStoreValues: (request) => {
-      const reqId = Math.random().toString(36).substring(2, 12);
       const summary = request.routeOptions.schema?.summary || '';
-      const logger = request.log.child({ summary, reqId });
-
+      const logger = request.log.child({ summary });
+      request.log = logger;
       return {
         logger: logger,
-        reqId: reqId,
+        reqId: request.id,
       };
     },
     hook: 'onRequest',

@@ -13,11 +13,14 @@ export function build(opts?: FastifyServerOptions): FastifyInstance {
         options: {
           colorize: process.env.NODE_ENV === 'dev',
           translateTime: 'SYS:standard',
-          ignore: 'pid,reqId,hostname,res,responseTime,summary',
-          messageFormat: '[{reqId}] [{summary}] - {msg}',
+          ignore: 'pid,reqId,hostname,res,summary',
+          messageFormat: '[{summary}] [{reqId}] - {msg}',
           singleLine: true,
         },
       },
+    },
+    genReqId(req) {
+      return (req.headers['x-request-id'] as string | undefined) || Math.random().toString(36).substring(2, 12);
     },
     ...opts,
   });

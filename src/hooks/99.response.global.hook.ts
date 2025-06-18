@@ -1,4 +1,3 @@
-import { requestContext } from '@fastify/request-context';
 import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 
@@ -23,7 +22,7 @@ const responseHookPlugin: FastifyPluginAsync = fp(async (fastify) => {
     reply.header('X-Frame-Options', 'DENY');
     reply.header('X-XSS-Protection', '1; mode=block');
     reply.header('content-type', 'application/json');
-    reply.header('x-tracing-id', requestContext.get('reqId') || '');
+    reply.header('x-request-id', request.id);
 
     // レスポンス情報のログ出力
     logger.info(
