@@ -19,8 +19,8 @@ export function build(opts?: FastifyServerOptions): FastifyInstance {
         },
       },
     },
-    genReqId(req) {
-      return (req.headers['x-request-id'] as string | undefined) || Math.random().toString(36).substring(2, 12);
+    genReqId(_req) {
+      return Math.random().toString(36).substring(2, 12);
     },
     ...opts,
   });
@@ -36,7 +36,7 @@ export function build(opts?: FastifyServerOptions): FastifyInstance {
 
   server.register(autoLoad, {
     dir: join(__dirname, 'hooks'),
-    matchFilter: (path) => path.includes('global'),
+    matchFilter: (path) => path.includes('hook'),
   });
 
   server.register(autoLoad, {

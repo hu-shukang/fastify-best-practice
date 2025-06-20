@@ -1,23 +1,22 @@
-import { requestContext } from '@fastify/request-context';
 import { FastifyBaseLogger } from 'fastify';
 
-const getLogger = (): FastifyBaseLogger => requestContext.get('logger') ?? (console as unknown as FastifyBaseLogger);
+import { ALS } from './als.util';
 
 export const logger: Pick<FastifyBaseLogger, 'info' | 'error' | 'warn' | 'debug'> = {
   get info() {
-    const log = getLogger();
+    const log = ALS.getLogger();
     return log.info.bind(log);
   },
   get error() {
-    const log = getLogger();
+    const log = ALS.getLogger();
     return log.error.bind(log);
   },
   get warn() {
-    const log = getLogger();
+    const log = ALS.getLogger();
     return log.warn.bind(log);
   },
   get debug() {
-    const log = getLogger();
+    const log = ALS.getLogger();
     return log.debug.bind(log);
   },
 };
