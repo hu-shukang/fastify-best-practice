@@ -5,8 +5,8 @@ export interface BookTbl {
   title: string;
   content: string;
   userId: string;
-  createdAt: ColumnType<string, Date | null, never>;
-  updatedAt: ColumnType<string | null, Date | null, Date>;
+  createdAt: ColumnType<Date, Date | null, never>;
+  updatedAt: ColumnType<Date | null, Date | null, Date>;
 }
 
 export type Book = Selectable<BookTbl>;

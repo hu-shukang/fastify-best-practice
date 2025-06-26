@@ -30,7 +30,7 @@ const config: Config = {
     '<rootDir>/src/app.ts',
     '<rootDir>/src/index.ts',
     '<rootDir>/src/migrations/',
-    '<rootDir>/src/plugins/swagger.plugin.ts',
+    '<rootDir>/src/plugins/04.swagger.plugin.ts',
     '<rootDir>/src/utils/logger.util.ts',
   ],
   moduleNameMapper: {

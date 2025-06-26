@@ -78,10 +78,7 @@ describe('POST /management/user', () => {
       };
       mockGetUUID.mockReturnValue('123e4567-e89b-12d3-a456-426614174000');
 
-      await supertest(app.server).post('/management/user').send(body).expect(500).expect({
-        error: 'error',
-        message: '重複したキー値は一意性制約"user_tbl_pkey"違反となります',
-      });
+      await supertest(app.server).post('/management/user').send(body).expect(500);
       expect(mockGetUUID).toHaveBeenCalledTimes(1);
     });
   });

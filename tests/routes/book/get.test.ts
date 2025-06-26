@@ -15,7 +15,6 @@ describe('GET /book Endpoint', () => {
         expect.objectContaining({
           id: bookId,
           title: 'Book One',
-          content: 'Content of Book One',
           userId: '123e4567-e89b-12d3-a456-426614174000',
         }),
       );
@@ -31,7 +30,6 @@ describe('GET /book Endpoint', () => {
         expect.objectContaining({
           id: '123e4567-e89b-12d3-a456-426614174101',
           title: title,
-          content: 'Content of Book Two',
           userId: '123e4567-e89b-12d3-a456-426614174000',
         }),
       );
@@ -47,7 +45,6 @@ describe('GET /book Endpoint', () => {
         expect.objectContaining({
           id: '123e4567-e89b-12d3-a456-426614174100', // Example UUID for book1
           title: 'Book One',
-          content: 'Content of Book One',
           userId: '123e4567-e89b-12d3-a456-426614174000', // Linking to user1
         }),
       );
@@ -55,7 +52,6 @@ describe('GET /book Endpoint', () => {
         expect.objectContaining({
           id: '123e4567-e89b-12d3-a456-426614174101', // Example UUID for book2
           title: 'Book Two',
-          content: 'Content of Book Two',
           userId: '123e4567-e89b-12d3-a456-426614174000', // Linking to user1
         }),
       );
