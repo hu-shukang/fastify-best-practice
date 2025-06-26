@@ -12,7 +12,6 @@ export default async () => {
     .withDatabase(process.env.DB_NAME || 'test_db')
     .withUsername(process.env.DB_USER || 'test_user')
     .withPassword(process.env.DB_PASSWORD || 'test_password')
-    .withExposedPorts(5432)
     .start();
   console.log('PostgreSQL container started.');
 
@@ -24,8 +23,8 @@ export default async () => {
     DB_NAME: container.getDatabase(),
   });
 
-  execSync('./node_modules/.bin/kysely migrate:latest');
-  execSync('./node_modules/.bin/kysely seed:run');
+  const kyselyPath = './node_modules/.bin/kysely';
+  execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`);
 
   (global as any).__TESTCONTAINER__ = container;
 };

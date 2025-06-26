@@ -1,16 +1,17 @@
-import { build } from '@/app';
 import { FastifyInstance } from 'fastify';
 
+import { build } from '@/app';
+
 /**
- * 一个在 describe 块内部使用的辅助函数。
- * 它会自动处理 Fastify 实例的创建和销毁。
- * @returns 返回一个 getApp 函数，用于在测试用例中获取 app 实例。
+ * describe ブロック内で使用されるヘルパー関数です。
+ * Fastify インスタンスの作成と破棄を自動的に処理します。
+ * @returns テストケースで app インスタンスを取得するための getApp 関数を返します。
  */
 export function setupFastify() {
-  // 用一个对象来持有 app 实例，以便在闭包中传递
+  // クロージャーで渡すために、app インスタンスをオブジェクトに保持します
   const appContainer: { instance: FastifyInstance | null } = { instance: null };
 
-  // 在每个 describe 块中设置独立的生命周期钩子
+  // 各 describe ブロックに独立したライフサイクルフックを設定します
   beforeAll(async () => {
     appContainer.instance = build();
     await appContainer.instance.ready();
@@ -20,7 +21,7 @@ export function setupFastify() {
     await appContainer.instance?.close();
   });
 
-  // 返回一个函数，让 it/test 块可以安全地获取已初始化的 app 实例
+  // it/test ブロックが初期化済みの app インスタンスを安全に取得できるように、関数を返します
   return {
     getApp: (): FastifyInstance => {
       if (!appContainer.instance) {
