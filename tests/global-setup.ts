@@ -3,10 +3,7 @@ import 'tsconfig-paths/register';
 import { PostgreSqlContainer } from '@testcontainers/postgresql';
 import { execSync } from 'child_process';
 import dotenv from 'dotenv';
-import { FastifyInstance } from 'fastify';
 import path from 'path';
-
-export let app: FastifyInstance;
 
 export default async () => {
   dotenv.config({ path: path.resolve(__dirname, '../env/.env') });
