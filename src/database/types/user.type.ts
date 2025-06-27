@@ -6,8 +6,8 @@ export interface UserTbl {
   address: string;
   email: string;
   birthday: ColumnType<string, Date | string, Date | string>;
-  createdAt: ColumnType<string, Date | null, never>;
-  updatedAt: ColumnType<string | null, Date | null, Date>;
+  createdAt: ColumnType<Date, Date | null, never>;
+  updatedAt: ColumnType<Date | null, Date | null, Date>;
 }
 
 export type User = Selectable<UserTbl>;
