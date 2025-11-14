@@ -2,9 +2,11 @@ import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { db } from '@/database';
-import { badRequestSchema, successSchema } from '@/models/common.model';
+import { badRequestSchema } from '@/models/common.model';
 import { userIdSchema } from '@/models/user.model';
-import { RESPONSE, SCHEMA } from '@/utils/const.util';
+import { deleteUser } from '@/services/user.service';
+import { Actions } from '@/utils/actions.util';
+import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().delete(
@@ -16,17 +18,17 @@ const routes = async (fastify: FastifyInstance) => {
         tags: [SCHEMA.tags.management.name],
         params: userIdSchema,
         response: {
-          200: successSchema,
+          204: {},
           401: badRequestSchema,
         },
       },
     },
-    async (req, _reply) => {
+    async (req, reply) => {
       const { id } = req.params;
 
-      await db.deleteFrom('userTbl').where('id', '=', id).execute();
+      await Actions().execute(deleteUser(id)).use(db).invoke();
 
-      return RESPONSE.success;
+      return reply.status(204).send();
     },
   );
 };

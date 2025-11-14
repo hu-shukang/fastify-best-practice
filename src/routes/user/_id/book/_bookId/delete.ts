@@ -4,6 +4,8 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { db } from '@/database';
 import { bookDeleteInputSchema } from '@/models/book.model';
 import { badRequestSchema, successSchema } from '@/models/common.model';
+import { deleteBook } from '@/services/book.service';
+import { Actions } from '@/utils/actions.util';
 import { RESPONSE, SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -22,9 +24,9 @@ const routes = async (fastify: FastifyInstance) => {
       },
     },
     async (req, _reply) => {
-      const { id: userId, bookId } = req.params;
+      const { bookId } = req.params;
 
-      await db.deleteFrom('bookTbl').where('id', '=', bookId).where('userId', '=', userId).execute();
+      await Actions().execute(deleteBook(bookId)).use(db).invoke();
 
       return RESPONSE.success;
     },

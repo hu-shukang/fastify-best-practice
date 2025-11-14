@@ -4,6 +4,8 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { db } from '@/database';
 import { badRequestSchema } from '@/models/common.model';
 import { userQueryResponseSchema, userQuerySchema } from '@/models/user.model';
+import { queryUser } from '@/services/user.service';
+import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -22,16 +24,7 @@ const routes = async (fastify: FastifyInstance) => {
       },
     },
     async (req, _reply) => {
-      const { id, username } = req.query;
-      let query = db.selectFrom('userTbl');
-      if (id) {
-        query = query.where('id', '=', id);
-      }
-      if (username) {
-        query = query.where('username', 'like', `%${username}%`);
-      }
-      query = query.orderBy('createdAt', 'desc');
-      return await query.selectAll().execute();
+      return Actions().executeWithReturn(queryUser(req.query)).use(db).invoke();
     },
   );
 };

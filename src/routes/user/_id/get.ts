@@ -4,6 +4,8 @@ import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { db } from '@/database';
 import { badRequestSchema, notFoundSchema } from '@/models/common.model';
 import { userGetResponseSchema, userIdSchema } from '@/models/user.model';
+import { getUser } from '@/services/user.service';
+import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -25,7 +27,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { id } = req.params;
 
-      return await db.selectFrom('userTbl as u').selectAll('u').where('u.id', '=', id).executeTakeFirstOrThrow();
+      return Actions().executeWithReturn(getUser(id)).use(db).invoke();
     },
   );
 };

@@ -5,6 +5,8 @@ import { db } from '@/database';
 import { bookCreateInputSchema, bookCreateResponseSchema } from '@/models/book.model';
 import { badRequestSchema } from '@/models/common.model';
 import { userIdSchema } from '@/models/user.model';
+import { addBook } from '@/services/book.service';
+import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
 import { Str } from '@/utils/string.util';
 
@@ -29,10 +31,11 @@ const routes = async (fastify: FastifyInstance) => {
       const { id: userId } = req.params;
 
       const id = Str.uuid();
-      await db
-        .insertInto('bookTbl')
-        .values({ ...form, id, userId })
-        .execute();
+
+      await Actions()
+        .execute(addBook({ ...form, id, userId }))
+        .use(db)
+        .invoke();
 
       return { id };
     },
