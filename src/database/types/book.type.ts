@@ -5,7 +5,7 @@ export interface BookTbl {
   title: string;
   content: string;
   userId: string;
-  createdAt: ColumnType<Date | null, Date | null, never>;
+  createdAt: ColumnType<Date, Date | null, never>;
   updatedAt: ColumnType<Date | null, Date | null, Date>;
 }
 

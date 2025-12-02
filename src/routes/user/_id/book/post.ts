@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
@@ -33,7 +34,7 @@ const routes = async (fastify: FastifyInstance) => {
       const id = Str.uuid();
 
       await Actions()
-        .execute(addBook({ ...form, id, userId }))
+        .execute(addBook({ ...form, id, userId, createdAt: dayjs().toDate() }))
         .use(db)
         .invoke();
 
