@@ -1,11 +1,11 @@
+import { ChainsWithKysely } from '@tool-chain/db/kysely';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { db } from '@/database';
+import { Database } from '@/database/types';
 import { bookDeleteInputSchema } from '@/models/book.model';
 import { badRequestSchema, successSchema } from '@/models/common.model';
 import { deleteBook } from '@/services/book.service';
-import { Actions } from '@/utils/actions.util';
 import { RESPONSE, SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -26,7 +26,7 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { bookId } = req.params;
 
-      await Actions().execute(deleteBook(bookId)).use(db).invoke();
+      await new ChainsWithKysely<Database>().use(fastify.db).chain(deleteBook(bookId)).invoke();
 
       return RESPONSE.success;
     },

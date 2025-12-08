@@ -2,6 +2,8 @@ import { CamelCasePlugin, PostgresDialect } from 'kysely';
 import { defineConfig } from 'kysely-ctl';
 import { Pool } from 'pg';
 
+import { DateToStringPlugin } from '@/database/plugins/date-to-string.plugin';
+
 export default defineConfig({
   dialect: new PostgresDialect({
     pool: new Pool({
@@ -19,5 +21,5 @@ export default defineConfig({
   seeds: {
     seedFolder: '.config/seeds',
   },
-  plugins: [new CamelCasePlugin()],
+  plugins: [new CamelCasePlugin(), new DateToStringPlugin()],
 });

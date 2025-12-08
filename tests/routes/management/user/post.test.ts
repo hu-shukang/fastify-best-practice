@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 
-import { db } from '@/database';
 import { UserCreateInput } from '@/models/user.model';
 import { setupFastify } from '@/tests/helpers/fastify.helper';
 import { Str } from '@/utils/string.util';
@@ -33,13 +32,13 @@ describe('POST /management/user', () => {
       });
 
       expect(mockGetUUID).toHaveBeenCalledTimes(1);
-      const user = await db.selectFrom('userTbl').where('id', '=', mockUUID).selectAll().executeTakeFirst();
+      const user = await app.db.selectFrom('userTbl').where('id', '=', mockUUID).selectAll().executeTakeFirst();
       expect(user).toEqual(
         expect.objectContaining({
           id: mockUUID,
         }),
       );
-      await db.deleteFrom('userTbl').where('id', '=', mockUUID).execute();
+      await app.db.deleteFrom('userTbl').where('id', '=', mockUUID).execute();
     });
   });
 

@@ -1,7 +1,11 @@
 import 'fastify';
+import { Kysely } from 'kysely';
+
+import { Database } from '@/database/types';
 
 declare module 'fastify' {
   interface FastifyInstance {
+    db: Kysely<Database>;
     config: {
       NODE_ENV: 'test' | 'dev' | 'it' | 'prod';
       PORT: number;

@@ -1,7 +1,7 @@
 import { Insertable, Kysely } from 'kysely';
 
 import { Database } from '@/database/types';
-import { User } from '@/database/types/user.type';
+import { UserTbl } from '@/database/types/user.type';
 import { UserQueryInput } from '@/models/user.model';
 
 export function deleteUser(id: string) {
@@ -10,7 +10,7 @@ export function deleteUser(id: string) {
   };
 }
 
-export function addUser(user: Insertable<User>) {
+export function addUser(user: Insertable<UserTbl>) {
   return async (db: Kysely<Database>) => {
     return await db.insertInto('userTbl').values(user).executeTakeFirst();
   };

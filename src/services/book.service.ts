@@ -1,7 +1,7 @@
 import { Insertable, Kysely } from 'kysely';
 
 import { Database } from '@/database/types';
-import { Book } from '@/database/types/book.type';
+import { BookTbl } from '@/database/types/book.type';
 import { BookQueryInput } from '@/models/book.model';
 
 export function deleteBook(bookId: string) {
@@ -16,7 +16,7 @@ export function getBook(bookId: string) {
   };
 }
 
-export function addBook(book: Insertable<Book>) {
+export function addBook(book: Insertable<BookTbl>) {
   return (db: Kysely<Database>) => {
     return db.insertInto('bookTbl').values(book).executeTakeFirst();
   };

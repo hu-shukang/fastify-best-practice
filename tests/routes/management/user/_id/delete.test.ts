@@ -1,6 +1,5 @@
 import supertest from 'supertest';
 
-import { db } from '@/database';
 import { setupFastify } from '@/tests/helpers/fastify.helper';
 
 describe('DELETE /management/user/_id', () => {
@@ -16,7 +15,7 @@ describe('DELETE /management/user/_id', () => {
       const app = getApp();
       const userId = mockUUID;
 
-      await db
+      await app.db
         .insertInto('userTbl')
         .values({
           id: userId,
@@ -27,9 +26,9 @@ describe('DELETE /management/user/_id', () => {
         })
         .execute();
 
-      await supertest(app.server).delete(`/management/user/${userId}`).expect(200);
+      await supertest(app.server).delete(`/management/user/${userId}`).expect(204);
 
-      const user = await db.selectFrom('userTbl').selectAll().where('id', '=', userId).executeTakeFirst();
+      const user = await app.db.selectFrom('userTbl').selectAll().where('id', '=', userId).executeTakeFirst();
       expect(user).toBeUndefined();
     });
   });

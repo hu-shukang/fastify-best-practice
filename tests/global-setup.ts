@@ -13,18 +13,25 @@ export default async () => {
     .withUsername(process.env.DB_USER || 'test_user')
     .withPassword(process.env.DB_PASSWORD || 'test_password')
     .start();
-  console.log('PostgreSQL container started.');
 
-  Object.assign(process.env, {
+  const dbEnv = {
     DB_HOST: container.getHost(),
     DB_USER: container.getUsername(),
     DB_PASSWORD: container.getPassword(),
     DB_PORT: container.getPort().toString(),
     DB_NAME: container.getDatabase(),
-  });
+  };
+
+  Object.assign(process.env, dbEnv);
 
   const kyselyPath = './node_modules/.bin/kysely';
-  execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`);
+  execSync(`${kyselyPath} migrate:latest && ${kyselyPath} seed:run`, {
+    env: {
+      ...process.env,
+      NODE_OPTIONS: '-r tsconfig-paths/register',
+    },
+    stdio: 'inherit',
+  });
 
   (global as any).__TESTCONTAINER__ = container;
 };

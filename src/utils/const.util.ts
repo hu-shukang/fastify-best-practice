@@ -20,8 +20,14 @@ export const SCHEMA = {
   },
   z: {
     common: {
-      createdAt: z.date().describe('作成日時'),
-      updatedAt: z.date().describe('更新日時'),
+      createdAt: z
+        .string({ message: '作成日時は文字列である必要があります' })
+        .datetime({ message: '作成日時はISO 8601形式の日時である必要があります' })
+        .describe('作成日時'),
+      updatedAt: z
+        .string({ message: '更新日時は文字列である必要があります' })
+        .datetime({ message: '更新日時はISO 8601形式の日時である必要があります' })
+        .describe('更新日時'),
       error: z.string().describe('エラー'),
       message: z.string().describe('メッセージ'),
       path: z.string().describe('パス'),

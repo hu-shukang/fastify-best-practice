@@ -4,10 +4,11 @@ import fp from 'fastify-plugin';
 import { closeDB, createDB } from '@/database';
 
 const dbPlugin: FastifyPluginAsync = fp(async (fastify) => {
-  createDB(fastify);
+  const db = createDB(fastify.config);
+  fastify.decorate('db', db);
 
   fastify.addHook('onClose', async () => {
-    await closeDB();
+    await closeDB(db);
   });
 });
 

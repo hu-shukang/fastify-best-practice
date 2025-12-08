@@ -1,12 +1,12 @@
+import { ChainsWithKysely } from '@tool-chain/db/kysely';
 import dayjs from 'dayjs';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { db } from '@/database';
+import { Database } from '@/database/types';
 import { badRequestSchema } from '@/models/common.model';
 import { userCreateInputSchema, userCreateResponseSchema } from '@/models/user.model';
 import { addUser } from '@/services/user.service';
-import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
 import { Str } from '@/utils/string.util';
 
@@ -29,9 +29,9 @@ const routes = async (fastify: FastifyInstance) => {
       const form = req.body;
       const id = Str.uuid();
 
-      await Actions()
-        .execute(addUser({ id, ...form, createdAt: dayjs().toDate() }))
-        .use(db)
+      await new ChainsWithKysely<Database>()
+        .use(fastify.db)
+        .chain(addUser({ id, ...form, createdAt: dayjs().toDate() }))
         .invoke();
 
       return { id };

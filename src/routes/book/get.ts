@@ -1,11 +1,11 @@
+import { ChainsWithKysely } from '@tool-chain/db/kysely';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { db } from '@/database';
+import { Database } from '@/database/types';
 import { bookQueryResponseSchema, bookQuerySchema } from '@/models/book.model';
 import { badRequestSchema } from '@/models/common.model';
 import { queryBooks } from '@/services/book.service';
-import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
 
 const routes = async (fastify: FastifyInstance) => {
@@ -24,7 +24,7 @@ const routes = async (fastify: FastifyInstance) => {
       },
     },
     async (req, _reply) => {
-      return await Actions().executeWithReturn(queryBooks(req.query)).use(db).invoke();
+      return await new ChainsWithKysely<Database>().use(fastify.db).chain(queryBooks(req.query)).invoke();
     },
   );
 };

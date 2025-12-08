@@ -1,12 +1,13 @@
+import { ChainsWithKysely } from '@tool-chain/db/kysely';
 import { FastifyInstance } from 'fastify';
 import type { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import { db } from '@/database';
+import { Database } from '@/database/types';
 import { badRequestSchema, notFoundSchema } from '@/models/common.model';
 import { userGetResponseSchema, userIdSchema } from '@/models/user.model';
 import { getUser } from '@/services/user.service';
-import { Actions } from '@/utils/actions.util';
 import { SCHEMA } from '@/utils/const.util';
+import { logger } from '@/utils/logger.util';
 
 const routes = async (fastify: FastifyInstance) => {
   fastify.withTypeProvider<ZodTypeProvider>().get(
@@ -27,7 +28,9 @@ const routes = async (fastify: FastifyInstance) => {
     async (req, _reply) => {
       const { id } = req.params;
 
-      return Actions().executeWithReturn(getUser(id)).use(db).invoke();
+      const result = await new ChainsWithKysely<Database>().use(fastify.db).chain(getUser(id)).invoke();
+      logger.info(`result`, result);
+      return result;
     },
   );
 };
