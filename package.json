@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "dotenv -e env/.env -- nodemon -r tsconfig-paths/register src/index.ts",
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p tsconfig.build.json",
     "start": "node index.js",
     "format": "prettier . --write",
     "lint": "eslint . --fix",
